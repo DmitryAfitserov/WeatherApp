@@ -1,6 +1,7 @@
-package com.app.weatherapp.model
+package com.app.weatherapp.model.weatherseveralday
 
 import com.app.weatherapp.model.weatherlist.Weather
+import com.app.weatherapp.model.weatherseveralday.FeelsLike
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
@@ -8,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 
 
-class WeatherDay {
+class DataWeatherDay {
 
     @SerializedName("dt")
     @Expose
@@ -22,9 +23,9 @@ class WeatherDay {
     @Expose
     var sunset: Int? = null
 
-//    @SerializedName("temp")
-//    @Expose
-//    var temp: Temp? = null
+    @SerializedName("temp")
+    @Expose
+    var temp: Temp? = null
 
     @SerializedName("feels_like")
     @Expose
@@ -32,11 +33,11 @@ class WeatherDay {
 
     @SerializedName("pressure")
     @Expose
-    var pressure: Int? = null
+    var pressure: String? = null
 
     @SerializedName("humidity")
     @Expose
-    var humidity: Int? = null
+    var humidity: String? = null
 
     @SerializedName("weather")
     @Expose
@@ -44,7 +45,7 @@ class WeatherDay {
 
     @SerializedName("speed")
     @Expose
-    var speed: Float? = null
+    var speed: String? = null
 
     @SerializedName("deg")
     @Expose
@@ -52,11 +53,11 @@ class WeatherDay {
 
     @SerializedName("clouds")
     @Expose
-    var clouds: Int? = null
+    var clouds: String? = null
 
     @SerializedName("pop")
     @Expose
-    var pop: Int? = null
+    var pop: String? = null
 
     @SerializedName("snow")
     @Expose

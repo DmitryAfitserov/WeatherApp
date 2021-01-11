@@ -1,13 +1,11 @@
-package com.app.weatherapp.model
+package com.app.weatherapp.model.weatherseveralday
 
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
 
 
-
-
-class ModelWeatherDays {
+class WeatherSeveralDays {
 
     @SerializedName("city")
     @Expose
@@ -27,6 +25,8 @@ class ModelWeatherDays {
 
     @SerializedName("list")
     @Expose
-    var list: List<WeatherDay>? = null
+    var list: List<DataWeatherDay>? = null
+
+    var error:String? = null
 
 }

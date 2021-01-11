@@ -88,6 +88,32 @@ class MainActivity : AppCompatActivity() {
 
 
 
+//        var weather = Repo.getWeatherSeveralDays("Minsk", 4)
+//        //   Log.d("EEE", "id city in  Main Activity" + id.value)
+//        weather.observe(this, {wd ->
+//
+//            wd.error?.let {
+//                Log.d("EEE", "error  " + it)
+//            } ?: run{
+//
+//                Log.d("EEE", "name city in  Main Activity  "
+//                        + wd.list!![2].pressure
+//                       // + wd.list!!.size
+//
+//                    // + wd.list.toString()
+//                )
+//
+//                Log.d("EEE", "name city in  Main Activity  "
+//                        + wd.list!![3].pressure
+//                        + wd.list!!.size
+//
+//                       // + wd.list.toString()
+//                )
+//            }
+//
+//        })
+
+
 
     }
 }

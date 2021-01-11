@@ -1,4 +1,4 @@
-package com.app.weatherapp.model
+package com.app.weatherapp.model.weatherseveralday
 
 import com.google.gson.annotations.Expose
 
