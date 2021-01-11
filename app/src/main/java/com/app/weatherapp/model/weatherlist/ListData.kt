@@ -39,7 +39,7 @@ class ListData {
 
     @SerializedName("id")
     @Expose
-    var id: Int? = null
+    var id: String? = null
 
     @SerializedName("name")
     @Expose
