@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.app.weatherapp.model.ModelWeatherNow
-import com.app.weatherapp.repository.Repository
+import com.app.weatherapp.repository.RepositoryApi
 
 class PageViewModel : ViewModel() {
 
@@ -21,10 +20,10 @@ class PageViewModel : ViewModel() {
 
     var liveDataWeatherNow: MutableLiveData<ModelWeatherNow>? = null
 
-    fun getWeather(): LiveData<ModelWeatherNow>? {
-        liveDataWeatherNow = Repository.getWeatherNow()
-        return liveDataWeatherNow
-    }
+//    fun getWeather(): LiveData<ModelWeatherNow>? {
+//        liveDataWeatherNow = RepositoryApi.getWeatherNow()
+//        return liveDataWeatherNow
+//    }
 
 
 }
