@@ -10,5 +10,5 @@ class WeatherDay {
 
     @SerializedName("list")
     @Expose
-    var list: ListData? = null
+    var list: List<ListData>? = null
 }
