@@ -1,5 +1,6 @@
 package com.app.weatherapp.model
 
+import com.app.weatherapp.model.weatherlist.Weather
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName

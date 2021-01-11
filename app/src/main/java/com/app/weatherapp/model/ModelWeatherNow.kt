@@ -1,5 +1,9 @@
 package com.app.weatherapp.model
 
+import com.app.weatherapp.model.weatherlist.Clouds
+import com.app.weatherapp.model.weatherlist.Main
+import com.app.weatherapp.model.weatherlist.Weather
+import com.app.weatherapp.model.weatherlist.Wind
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName

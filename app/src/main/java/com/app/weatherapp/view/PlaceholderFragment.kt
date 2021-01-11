@@ -1,4 +1,4 @@
-package com.app.weatherapp.ui.main
+package com.app.weatherapp.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.app.weatherapp.R
+import com.app.weatherapp.viewmodel.PageViewModel
 
 /**
  * A placeholder fragment containing a simple view.

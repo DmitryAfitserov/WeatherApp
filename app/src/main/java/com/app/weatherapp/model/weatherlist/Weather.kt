@@ -1,4 +1,4 @@
-package com.app.weatherapp.model
+package com.app.weatherapp.model.weatherlist
 
 import com.google.gson.annotations.Expose
 
