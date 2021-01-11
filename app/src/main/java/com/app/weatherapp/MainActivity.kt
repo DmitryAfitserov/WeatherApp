@@ -24,7 +24,16 @@ class MainActivity : AppCompatActivity() {
 
 
         var id = Repo.getIdCityByName("Minsk")
-        Log.d("EEE", "id city in  Main Activity" + id.value)
+     //   Log.d("EEE", "id city in  Main Activity" + id.value)
+        id.observe(this, {idCity ->
+
+            idCity.error?.let {
+                Log.d("EEE", "error  " + idCity.error)
+            } ?: run{
+                Log.d("EEE", "id city in  Main Activity  " + idCity.id)
+            }
+
+        })
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

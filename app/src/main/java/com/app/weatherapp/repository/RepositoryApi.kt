@@ -17,13 +17,13 @@ object RepositoryApi {
 
     val liveDataWeatherDays = MutableLiveData<ModelWeatherDays>()
 
-    val liveDataIdCity = MutableLiveData<String>()
+    val liveDataIdCity = MutableLiveData<IdCity>()
 
 
 
 
 
-    fun getIdCityByName(name: String) : MutableLiveData<String>{
+    fun getIdCityByName(name: String) : MutableLiveData<IdCity>{
 
         val params: MutableMap<String, String> = HashMap()
         params["q"] = name
@@ -35,22 +35,26 @@ object RepositoryApi {
         call.enqueue(object: Callback<IdCity> {
 
             override fun onFailure(call: Call<IdCity>, t: Throwable) {
-                Log.v("DEBUG : ", t.message.toString())
+                Log.d("EEE", t.message.toString())
+                val idCity = IdCity()
+                idCity.error = t.message.toString()
+                liveDataIdCity.value = idCity
+
             }
 
             override fun onResponse( call: Call<IdCity>,
                                      response: Response<IdCity> ) {
-                Log.v("EEE", response.body().toString())
+                Log.d("EEE", response.body().toString())
 
                 val data = response.body()
-                Log.v("EEE", "id city  = " + data?.id.toString())
-                liveDataIdCity.value = data?.id.toString()
+                Log.d("EEE", "id city  = " + data?.id.toString())
+                liveDataIdCity.value = data
             }
         })
 
         return liveDataIdCity
     }
 
-    
+
 
 }

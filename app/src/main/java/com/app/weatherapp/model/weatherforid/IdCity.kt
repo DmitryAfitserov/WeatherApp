@@ -14,4 +14,6 @@ class IdCity {
     @Expose
     var id: Int? = null
 
+
+    var error: String? = null
 }
