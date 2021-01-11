@@ -8,9 +8,16 @@ import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import com.app.weatherapp.model.weatherlist.ListData
+import com.app.weatherapp.model.weatherlist.Main
 import com.app.weatherapp.model.weatherlist.WeatherDay
 import com.app.weatherapp.repository.Repo
+import com.app.weatherapp.repository.RepositoryBD
+import com.app.weatherapp.utils.WeatherDayConverterRoom
 import com.app.weatherapp.view.SectionsPagerAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -113,6 +120,62 @@ class MainActivity : AppCompatActivity() {
 //
 //        })
 
+
+
+        val temp = WeatherDay();
+        temp.list = arrayListOf<ListData>()
+
+
+        val temp1 = ListData()
+        temp1.name = "name2"
+
+        val temp2 = ListData()
+        temp2.name = "name2"
+
+        temp.list?.add(temp1)
+        temp.list?.add(temp2)
+
+
+        val converter = WeatherDayConverterRoom()
+
+        Log.d("EEE", "list start size " + temp.list!!.size.toString())
+
+        val string = converter.fromList(temp.list!!)
+
+        Log.d("EEE", "list contein " + string)
+
+        val list = converter.toList(string!!)
+
+        Log.d("EEE", "list size " + list!!.size)
+
+
+        val bd = RepositoryBD(applicationContext)
+//        GlobalScope.launch {
+//            bd.insert(temp)
+//        }
+
+
+        var weatherDay:WeatherDay? = null
+
+        GlobalScope.launch {
+            weatherDay = bd.getWeatherDay()
+        }
+
+
+
+
+     //   val list =  bd.allBookmarks
+
+        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+            if(weatherDay == null){
+           //     Log.d("EEE", "list sosi")
+            }
+            Log.d("EEE", "list name " + weatherDay?.id)
+            Log.d("EEE", "list name " + weatherDay?.list!![0].name)
+
+        }
 
 
     }
