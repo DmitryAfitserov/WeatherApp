@@ -11,7 +11,7 @@ class City {
 
     @SerializedName("id")
     @Expose
-    var id: Int? = null
+    var id: String? = null
 
     @SerializedName("name")
     @Expose
@@ -27,10 +27,10 @@ class City {
 
     @SerializedName("population")
     @Expose
-    var population: Int? = null
+    var population: String? = null
 
     @SerializedName("timezone")
     @Expose
-    var timezone: Int? = null
+    var timezone: String? = null
 
 }

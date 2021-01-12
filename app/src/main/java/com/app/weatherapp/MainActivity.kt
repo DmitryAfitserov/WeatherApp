@@ -10,8 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.weatherapp.model.weatherday.ListData
 import com.app.weatherapp.model.weatherday.Main
 import com.app.weatherapp.model.weatherday.WeatherDay
+import com.app.weatherapp.model.weatherseveralday.City
+import com.app.weatherapp.model.weatherseveralday.DataWeatherDay
+import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
 import com.app.weatherapp.repository.Repo
+import com.app.weatherapp.utils.CityConverterRoom
 import com.app.weatherapp.utils.WeatherDayConverterRoom
+import com.app.weatherapp.utils.WeatherSeveralDaysConverterRoom
 import com.app.weatherapp.view.SectionsPagerAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -34,28 +39,27 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//test 4
-        val temp = WeatherDay();
-        temp.list = arrayListOf<ListData>()
+//test 5
+        val temp = WeatherSeveralDays();
+        temp.list = arrayListOf<DataWeatherDay>()
 
 
-        val temp1 = ListData()
-        temp1.name = "name2"
+        val temp1 = DataWeatherDay()
+        temp1.clouds = "name2"
 
-        val temp2 = ListData()
-        temp2.name = "name2"
+        val temp2 = DataWeatherDay()
+        temp2.clouds = "name2"
         temp2.dt = 5
-        val main = Main()
-        main.pressure = "300"
-        temp2.main = main
+        val city = City()
+        city.country = "BY"
+        temp.city = city
 
         temp.list?.add(temp1)
         temp.list?.add(temp2)
 
 
-        val converter = WeatherDayConverterRoom()
+        val converter = WeatherSeveralDaysConverterRoom()
 
-        Log.d("EEE", "list start size " + temp.list!!.size.toString())
         Log.d("EEE", "list start size " + temp.list!!.size.toString())
 
         val string = converter.fromList(temp.list!!)
@@ -65,6 +69,19 @@ class MainActivity : AppCompatActivity() {
         val list = converter.toList(string!!)
 
         Log.d("EEE", "list size " + list.size)
+
+
+
+        val converterCity = CityConverterRoom()
+
+        val stringCity = converterCity.fromObject(temp.city!!)
+
+        Log.d("EEE", "object contein " + stringCity)
+
+        val city22 = converterCity.toObject(stringCity!!)
+
+        Log.d("EEE", "Object 1 data " + city22.country)
+
 
 
         val bd = Repo.getBD(applicationContext)
@@ -79,14 +96,14 @@ class MainActivity : AppCompatActivity() {
 
     //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
 
-        bd.getWeatherDay().observe(this, { weather ->
-            weather?.let {
-                Log.d("EEE", "list name " + weather.id)
-                Log.d("EEE", "list name " + weather.list!![0].name)
-                Log.d("EEE", "list name main pressure" + weather.list!![1].main?.pressure)
-            }
-
-        })
+//        bd.getWeatherDay().observe(this, { weather ->
+//            weather?.let {
+//                Log.d("EEE", "list name " + weather.id)
+//                Log.d("EEE", "list name " + weather.list!![0].name)
+//                Log.d("EEE", "list name main pressure" + weather.list!![1].main?.pressure)
+//            }
+//
+//        })
 
 //        GlobalScope.launch {
 //          //  weatherDay = bd.getWeatherDay()

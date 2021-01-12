@@ -1,0 +1,57 @@
+//test 4
+        val temp = WeatherDay();
+        temp.list = arrayListOf<ListData>()
+
+
+        val temp1 = ListData()
+        temp1.name = "name2"
+
+        val temp2 = ListData()
+        temp2.name = "name2"
+        temp2.dt = 5
+        val main = Main()
+        main.pressure = "300"
+        temp2.main = main
+
+        temp.list?.add(temp1)
+        temp.list?.add(temp2)
+
+
+        val converter = WeatherDayConverterRoom()
+
+        Log.d("EEE", "list start size " + temp.list!!.size.toString())
+        Log.d("EEE", "list start size " + temp.list!!.size.toString())
+
+        val string = converter.fromList(temp.list!!)
+
+        Log.d("EEE", "list contein " + string)
+
+        val list = converter.toList(string!!)
+
+        Log.d("EEE", "list size " + list.size)
+
+
+        val bd = Repo.getBD(applicationContext)
+//        GlobalScope.launch {
+//            bd.insertWeatherDay(temp)
+//        }
+
+//                GlobalScope.launch {
+//            bd.updateWeatherDay(temp)
+//        }
+
+
+    //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
+
+        bd.getWeatherDay().observe(this, { weather ->
+            weather?.let {
+                Log.d("EEE", "list name " + weather.id)
+                Log.d("EEE", "list name " + weather.list!![0].name)
+                Log.d("EEE", "list name main pressure" + weather.list!![1].main?.pressure)
+            }
+
+        })
+
+//        GlobalScope.launch {
+//          //  weatherDay = bd.getWeatherDay()
+//        }

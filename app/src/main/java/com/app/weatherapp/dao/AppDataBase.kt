@@ -7,10 +7,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 import com.app.weatherapp.model.weatherday.WeatherDay
+import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
+import com.app.weatherapp.utils.CityConverterRoom
 import com.app.weatherapp.utils.WeatherDayConverterRoom
+import com.app.weatherapp.utils.WeatherSeveralDaysConverterRoom
 
-@Database(entities = [WeatherDay::class], version = 1)
-@TypeConverters(WeatherDayConverterRoom::class)
+@Database(entities = [WeatherDay::class, WeatherSeveralDays::class], version = 1)
+@TypeConverters(WeatherDayConverterRoom::class, WeatherSeveralDaysConverterRoom::class, CityConverterRoom::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun weatherCityDao(): WeatherCityDao
 
