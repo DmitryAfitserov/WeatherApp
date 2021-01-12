@@ -55,3 +55,101 @@
 //        GlobalScope.launch {
 //          //  weatherDay = bd.getWeatherDay()
 //        }
+
+
+
+//test 5
+        val temp = WeatherSeveralDays();
+        temp.list = arrayListOf<DataWeatherDay>()
+
+
+        val temp1 = DataWeatherDay()
+        temp1.clouds = "name1"
+
+        val temp2 = DataWeatherDay()
+        temp2.clouds = "name2"
+        temp2.dt = 5
+        val city = City()
+        city.country = "BY"
+        temp.city = city
+
+        temp.list?.add(temp1)
+        temp.list?.add(temp2)
+
+
+        val converter = WeatherSeveralDaysConverterRoom()
+
+        Log.d("EEE", "list start size " + temp.list!!.size.toString())
+
+        val string = converter.fromList(temp.list!!)
+
+        Log.d("EEE", "list contein " + string)
+
+        val list = converter.toList(string!!)
+
+        Log.d("EEE", "list size " + list.size)
+
+
+
+        val converterCity = CityConverterRoom()
+
+        val stringCity = converterCity.fromObject(temp.city!!)
+
+        Log.d("EEE", "object contein " + stringCity)
+
+        val city22 = converterCity.toObject(stringCity!!)
+
+        Log.d("EEE", "Object 1 data " + city22.country)
+
+
+
+        val bd = Repo.getBD(applicationContext)
+//        GlobalScope.launch {
+//            bd.insertWeatherSeveralDays(temp)
+//        }
+
+                GlobalScope.launch {
+            bd.updateWeatherSeveralDays(temp)
+        }
+
+
+    //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
+
+        bd.getWeatherSeveralDays().observe(this, { weather ->
+            weather?.let {
+                Log.d("EEE", "city country name " + it.city!!.country)
+                Log.d("EEE", "list[0] clouds " + it.list!![0].clouds)
+                Log.d("EEE", "list[1] clouds" + it.list!![1].clouds)
+            }
+
+        })
+
+
+
+
+//test 6
+        val temp = MainCity();
+        temp.mainCity = "Minsk"
+
+
+
+
+        val bd = Repo.getBD(applicationContext)
+        GlobalScope.launch {
+            bd.insertMainCity(temp)
+        }
+
+//                GlobalScope.launch {
+//            bd.updateMainCity(temp)
+//        }
+
+
+    //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
+
+        bd.getMainCity().observe(this, { weather ->
+            weather?.let {
+                Log.d("EEE", "mainCity " + it.mainCity)
+            }
+
+        })
+

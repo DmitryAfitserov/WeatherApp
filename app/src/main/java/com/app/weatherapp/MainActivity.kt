@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
+import com.app.weatherapp.model.MainCity
 import com.app.weatherapp.model.weatherday.ListData
 import com.app.weatherapp.model.weatherday.Main
 import com.app.weatherapp.model.weatherday.WeatherDay
@@ -41,76 +42,31 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//test 5
-        val temp = WeatherSeveralDays();
-        temp.list = arrayListOf<DataWeatherDay>()
+//test 6
+        val temp = MainCity();
+        temp.mainCity = "Orsha"
 
-
-        val temp1 = DataWeatherDay()
-        temp1.clouds = "name1"
-
-        val temp2 = DataWeatherDay()
-        temp2.clouds = "name2"
-        temp2.dt = 5
-        val city = City()
-        city.country = "BY"
-        temp.city = city
-
-        temp.list?.add(temp1)
-        temp.list?.add(temp2)
-
-
-        val converter = WeatherSeveralDaysConverterRoom()
-
-        Log.d("EEE", "list start size " + temp.list!!.size.toString())
-
-        val string = converter.fromList(temp.list!!)
-
-        Log.d("EEE", "list contein " + string)
-
-        val list = converter.toList(string!!)
-
-        Log.d("EEE", "list size " + list.size)
-
-
-
-        val converterCity = CityConverterRoom()
-
-        val stringCity = converterCity.fromObject(temp.city!!)
-
-        Log.d("EEE", "object contein " + stringCity)
-
-        val city22 = converterCity.toObject(stringCity!!)
-
-        Log.d("EEE", "Object 1 data " + city22.country)
 
 
 
         val bd = Repo.getBD(applicationContext)
 //        GlobalScope.launch {
-//            bd.insertWeatherSeveralDays(temp)
+//            bd.insertMainCity(temp)
 //        }
 
                 GlobalScope.launch {
-            bd.updateWeatherSeveralDays(temp)
+            bd.updateMainCity(temp)
         }
 
 
     //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
 
-        bd.getWeatherSeveralDays().observe(this, { weather ->
+        bd.getMainCity().observe(this, { weather ->
             weather?.let {
-                Log.d("EEE", "city country name " + it.city!!.country)
-                Log.d("EEE", "list[0] clouds " + it.list!![0].clouds)
-                Log.d("EEE", "list[1] clouds" + it.list!![1].clouds)
+                Log.d("EEE", "mainCity " + it.mainCity)
             }
 
         })
-
-//        GlobalScope.launch {
-//          //  weatherDay = bd.getWeatherDay()
-//        }
-
 
 
 
