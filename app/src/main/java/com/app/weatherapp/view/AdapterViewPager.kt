@@ -1,15 +1,9 @@
 package com.app.weatherapp.view
 
-import android.content.Context
+
 import androidx.fragment.app.*
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.app.weatherapp.R
-
-private val TAB_TITLES = arrayOf(
-        R.string.tab_text_1,
-        R.string.tab_text_2,
-        R.string.tab_text_3,
-)
 
 
 class AdapterViewPager(activity: FragmentActivity) : FragmentStateAdapter(activity) {
@@ -21,9 +15,10 @@ class AdapterViewPager(activity: FragmentActivity) : FragmentStateAdapter(activi
 
     override fun createFragment(position: Int): Fragment {
 
+
         when(position){
-            0 -> return FavoriteCityFragment()
-            1 -> return MainCityFragment()
+            0 -> return MainCityFragment()
+            1 -> return FavoriteCityFragment()
             2 -> return WeatherSeveralDaysFragment()
         }
         return MainCityFragment()

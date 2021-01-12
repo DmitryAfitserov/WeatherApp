@@ -1,6 +1,7 @@
 package com.app.weatherapp
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,10 +21,15 @@ class MainActivity : AppCompatActivity() {
         R.string.tab_text_3,
     )
 
+    companion object {
+        const val LOCATION_SETTING_REQUEST = 999
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
         viewPager.adapter = AdapterViewPager(this)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -43,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+        //test 6
 
 
 
@@ -54,6 +61,8 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 
         }
+
+
 
 
     }
@@ -73,4 +82,6 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
 }

@@ -13,4 +13,6 @@ class MainCity {
 
     var mainCity: String? = null
 
+    var error  = false
+
 }

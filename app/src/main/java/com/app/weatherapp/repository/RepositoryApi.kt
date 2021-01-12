@@ -7,6 +7,7 @@ import com.app.weatherapp.api.RetrofitBuilder
 import com.app.weatherapp.model.weatherforid.IdCity
 import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
+import com.google.android.gms.location.FusedLocationProviderClient
 import retrofit2.Call
 import retrofit2.Response
 
@@ -129,6 +130,7 @@ object RepositoryApi {
         })
         return liveDataWeatherSeveralDays
     }
+
 
 
 
