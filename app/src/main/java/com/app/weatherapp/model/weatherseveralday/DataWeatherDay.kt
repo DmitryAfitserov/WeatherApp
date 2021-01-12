@@ -1,7 +1,6 @@
 package com.app.weatherapp.model.weatherseveralday
 
-import com.app.weatherapp.model.weatherlist.Weather
-import com.app.weatherapp.model.weatherseveralday.FeelsLike
+import com.app.weatherapp.model.weatherday.Weather
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-import com.app.weatherapp.model.weatherlist.WeatherDay
+import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.utils.WeatherDayConverterRoom
 
 @Database(entities = [WeatherDay::class], version = 1)

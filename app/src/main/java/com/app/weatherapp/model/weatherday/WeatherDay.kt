@@ -1,4 +1,4 @@
-package com.app.weatherapp.model.weatherlist
+package com.app.weatherapp.model.weatherday
 
 import androidx.room.Entity
 import androidx.room.Ignore

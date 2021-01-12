@@ -1,7 +1,7 @@
 package com.app.weatherapp.utils
 
 import androidx.room.TypeConverter
-import com.app.weatherapp.model.weatherlist.ListData
+import com.app.weatherapp.model.weatherday.ListData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

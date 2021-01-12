@@ -1,7 +1,7 @@
 package com.app.weatherapp.api
 
 import com.app.weatherapp.model.weatherforid.IdCity
-import com.app.weatherapp.model.weatherlist.WeatherDay
+import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
 import retrofit2.Call
 import retrofit2.http.*
