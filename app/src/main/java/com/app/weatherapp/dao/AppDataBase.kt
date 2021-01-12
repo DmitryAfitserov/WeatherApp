@@ -15,7 +15,8 @@ import com.app.weatherapp.utils.WeatherSeveralDaysConverterRoom
 @Database(entities = [WeatherDay::class, WeatherSeveralDays::class], version = 1)
 @TypeConverters(WeatherDayConverterRoom::class, WeatherSeveralDaysConverterRoom::class, CityConverterRoom::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun weatherCityDao(): WeatherCityDao
+    abstract fun weatherDayDao(): WeatherDayDao
+    abstract fun weatherSeveralDaysDao(): WeatherSeveralDaysDao
 
 
     companion object {

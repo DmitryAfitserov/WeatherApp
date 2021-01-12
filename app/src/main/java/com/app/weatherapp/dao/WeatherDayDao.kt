@@ -8,15 +8,15 @@ import androidx.room.Update
 import com.app.weatherapp.model.weatherday.WeatherDay
 
 @Dao
-interface WeatherCityDao {
+interface WeatherDayDao {
 
     @Insert
     suspend fun insert(weatherDay: WeatherDay)
 
     @Query("SELECT * FROM WeatherDay")
-    fun getWeatherDay(): LiveData<WeatherDay>
+    fun get(): LiveData<WeatherDay>
 
     @Update
-    suspend fun updateWeatherDay(weatherDay: WeatherDay)
+    suspend fun update(weatherDay: WeatherDay)
 
 }

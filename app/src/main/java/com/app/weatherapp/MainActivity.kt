@@ -18,6 +18,8 @@ import com.app.weatherapp.utils.CityConverterRoom
 import com.app.weatherapp.utils.WeatherDayConverterRoom
 import com.app.weatherapp.utils.WeatherSeveralDaysConverterRoom
 import com.app.weatherapp.view.SectionsPagerAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val temp1 = DataWeatherDay()
-        temp1.clouds = "name2"
+        temp1.clouds = "name1"
 
         val temp2 = DataWeatherDay()
         temp2.clouds = "name2"
@@ -86,24 +88,24 @@ class MainActivity : AppCompatActivity() {
 
         val bd = Repo.getBD(applicationContext)
 //        GlobalScope.launch {
-//            bd.insertWeatherDay(temp)
+//            bd.insertWeatherSeveralDays(temp)
 //        }
 
-//                GlobalScope.launch {
-//            bd.updateWeatherDay(temp)
-//        }
+                GlobalScope.launch {
+            bd.updateWeatherSeveralDays(temp)
+        }
 
 
     //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
 
-//        bd.getWeatherDay().observe(this, { weather ->
-//            weather?.let {
-//                Log.d("EEE", "list name " + weather.id)
-//                Log.d("EEE", "list name " + weather.list!![0].name)
-//                Log.d("EEE", "list name main pressure" + weather.list!![1].main?.pressure)
-//            }
-//
-//        })
+        bd.getWeatherSeveralDays().observe(this, { weather ->
+            weather?.let {
+                Log.d("EEE", "city country name " + it.city!!.country)
+                Log.d("EEE", "list[0] clouds " + it.list!![0].clouds)
+                Log.d("EEE", "list[1] clouds" + it.list!![1].clouds)
+            }
+
+        })
 
 //        GlobalScope.launch {
 //          //  weatherDay = bd.getWeatherDay()
