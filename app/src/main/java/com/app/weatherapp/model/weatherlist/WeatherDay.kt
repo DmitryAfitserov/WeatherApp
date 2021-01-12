@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
 class WeatherDay {
 
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     var id: Int = 0
 
     @SerializedName("list")

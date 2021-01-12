@@ -11,7 +11,7 @@ class Wind {
 
     @SerializedName("speed")
     @Expose
-    var speed: Int? = null
+    var speed: String? = null
 
     @SerializedName("deg")
     @Expose

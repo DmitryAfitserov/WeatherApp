@@ -1,8 +1,11 @@
 package com.app.weatherapp.dao
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.app.weatherapp.model.weatherlist.WeatherDay
 
 @Dao
@@ -12,6 +15,9 @@ interface WeatherCityDao {
     suspend fun insert(weatherDay: WeatherDay)
 
     @Query("SELECT * FROM WeatherDay")
-    suspend fun getWeatherDay(): WeatherDay
+    fun getWeatherDay(): LiveData<WeatherDay>
+
+    @Update
+    suspend fun updateWeatherDay(weatherDay: WeatherDay)
 
 }
