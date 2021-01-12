@@ -1,38 +1,42 @@
 package com.app.weatherapp
 
+
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.app.weatherapp.view.AdapterViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
-import com.app.weatherapp.model.MainCity
-import com.app.weatherapp.model.weatherday.ListData
-import com.app.weatherapp.model.weatherday.Main
-import com.app.weatherapp.model.weatherday.WeatherDay
-import com.app.weatherapp.model.weatherseveralday.City
-import com.app.weatherapp.model.weatherseveralday.DataWeatherDay
-import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
-import com.app.weatherapp.repository.Repo
-import com.app.weatherapp.utils.CityConverterRoom
-import com.app.weatherapp.utils.WeatherDayConverterRoom
-import com.app.weatherapp.utils.WeatherSeveralDaysConverterRoom
-import com.app.weatherapp.view.SectionsPagerAdapter
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
+
+    private val tabTitles = arrayOf(
+        R.string.tab_text_1,
+        R.string.tab_text_2,
+        R.string.tab_text_3,
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
+        setSupportActionBar(toolbar)
+        viewPager.adapter = AdapterViewPager(this)
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = applicationContext.resources.getString(tabTitles[position])
+
+            viewPager.setCurrentItem(tab.position, true)
+        }.attach()
+
+
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
+
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -40,33 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-//test 6
-        val temp = MainCity();
-        temp.mainCity = "Orsha"
-
-
-
-
-        val bd = Repo.getBD(applicationContext)
-//        GlobalScope.launch {
-//            bd.insertMainCity(temp)
-//        }
-
-                GlobalScope.launch {
-            bd.updateMainCity(temp)
-        }
-
-
-    //    var weatherDay:  LiveData<WeatherDay>? = bd.getWeatherDay()
-
-        bd.getMainCity().observe(this, { weather ->
-            weather?.let {
-                Log.d("EEE", "mainCity " + it.mainCity)
-            }
-
-        })
 
 
 
@@ -79,5 +56,21 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_options, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settings -> {
+              //  newGame()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
