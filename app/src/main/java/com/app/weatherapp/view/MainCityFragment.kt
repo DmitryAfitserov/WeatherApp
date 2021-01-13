@@ -60,6 +60,11 @@ class MainCityFragment : Fragment() {
             checkLocation()
         }
 
+        val buttonUpdate = root.findViewById<Button>(R.id.buttonUpdate)
+        buttonUpdate.setOnClickListener{
+            checkIdCity()
+        }
+
 
         mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { mainCity ->
 
@@ -266,7 +271,7 @@ class MainCityFragment : Fragment() {
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         val city: String = addresses[0].locality
                         if(city.equals(mainCityViewModel.liveDataMainCity.value?.mainCity)){
-                            
+
                         } else {
                             val mainCity = MainCity()
                             mainCity.mainCity = city
