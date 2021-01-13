@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
         R.string.tab_text_3,
     )
 
-    companion object {
-        const val LOCATION_SETTING_REQUEST = 999
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

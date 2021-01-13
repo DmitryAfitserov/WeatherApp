@@ -8,7 +8,7 @@ class IdCity {
 
     @SerializedName("id")
     @Expose
-    var id: Int? = null
+    var id: String? = null
 
 
     var error: String? = null

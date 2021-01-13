@@ -32,13 +32,7 @@ class FavoriteCityFragment: Fragment() {
         textView.text = "FavoriteCityFragment"
 
 
-        pagesViewModel.check()
         return root
     }
 
-    override fun onResume() {
-        super.onResume()
-        pagesViewModel.check()
-
-    }
 }

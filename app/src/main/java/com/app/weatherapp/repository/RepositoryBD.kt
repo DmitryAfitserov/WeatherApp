@@ -30,11 +30,7 @@ class RepositoryBD(context: Context) {
         return weatherDayDao.get()
     }
 
-    suspend fun updateWeatherDay(weatherDay: WeatherDay): Long? {
-        val newId = weatherDayDao.update(weatherDay)
-        // bookmark.id = newId
-        return 0
-    }
+
 
     suspend fun insertWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays): Long? {
         val newId = weatherSeveralDaysDao.insert(weatherSeveralDays)
@@ -47,11 +43,7 @@ class RepositoryBD(context: Context) {
         return weatherSeveralDaysDao.get()
     }
 
-    suspend fun updateWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays): Long? {
-        val newId = weatherSeveralDaysDao.update(weatherSeveralDays)
-        // bookmark.id = newId
-        return 0
-    }
+
 
     suspend fun insertMainCity(mainCity: MainCity): Long? {
         val newId = mainCityDao.insert(mainCity)
@@ -63,11 +55,7 @@ class RepositoryBD(context: Context) {
         return mainCityDao.get()
     }
 
-    suspend fun updateMainCity(mainCity: MainCity): Long? {
-        val newId = mainCityDao.update(mainCity)
-        // bookmark.id = newId
-        return 0
-    }
+
 
 
 

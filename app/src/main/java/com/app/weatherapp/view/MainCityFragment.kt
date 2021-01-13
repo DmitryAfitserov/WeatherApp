@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.weatherapp.MainActivity
 import com.app.weatherapp.R
+import com.app.weatherapp.model.MainCity
 import com.app.weatherapp.viewmodel.MainCityViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -39,7 +40,7 @@ class MainCityFragment : Fragment() {
 
     private lateinit var mainCityViewModel: MainCityViewModel
     private val LOCATION_PERMISSION_CODE = 1002
-  //  private val LOCATION_REQUEST_CODE_ = 1003
+    private val LOCATION_REQUEST_CODE_ = 1003
     lateinit var mLocationRequest:LocationRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,48 +58,77 @@ class MainCityFragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.section_label)
         textView.text = "MainCityFragment"
 
-        mainCityViewModel.startApp()
 
 
-        mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { weather ->
+        mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { mainCity ->
 
-            weather?.let {
 
-                    startLoadWeather()
+            mainCity?.let {
+                Log.d("EEE", "mainCity update ok")
+                    startLoadWeatherBD()
 
             } ?: run {
-                Log.d("EEE", "error city false")
+                Log.d("EEE", "mainCity update null")
 
                 checkLocation()
             }
-
-        })
-        mainCityViewModel.liveDataCity.observe(viewLifecycleOwner, {
-            Log.d("EEE", "city is $it")
-            startLoadWeather()
 
         })
 
         return root
     }
 
-    private fun startLoadWeather() {
+    private fun startLoadWeatherBD() {
         Log.d("EEE", "startLoadWeather()")
-        mainCityViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weather ->
+        mainCityViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
 
-            Log.d("EEE", "answer from bd weather day")
-            weather?.let {
-                Log.d("EEE", "answer from bd weather day")
+            weatherDay?.let {
+
+                Log.d("EEE", "answer from bd weather day is ok")
+                Log.d("EEE", "answer from bd weather day is ok lisrt name " + weatherDay.list!![0].name)
+
             } ?: run {
+
+                if(mainCityViewModel.liveDataMainCity.value!!.mainCityId != null){
+                    getWeatherDayApi()
+                    Log.d("EEE", "answer from bd weather day mainCityId != null")
+                } else {
+                    getIdCity()
+                    Log.d("EEE", "answer from bd weather day mainCityId == null")
+                }
 
             }
 
         })
     }
 
-    private fun getWeather(){
+    private fun getIdCity(){
 
+        mainCityViewModel.liveDataWeatherDay.value?.let {
+
+        } ?: run {
+            mainCityViewModel.getIdCity(mainCityViewModel.liveDataMainCity.value!!.mainCity!!)
+                .observe(viewLifecycleOwner, {
+                    if(it.error == null){
+                        val mainCity = MainCity()
+                        mainCity.mainCityId = it.id
+                        mainCity.mainCity = mainCityViewModel.liveDataMainCity.value!!.mainCity
+                        mainCityViewModel.insertMainCity(mainCity)
+                    } else {
+                        Log.d("EEE", "load api id city error")
+
+                    }
+                })
+        }
     }
+
+    private fun getWeatherDayApi(){
+        mainCityViewModel.getWeatherDayAPI().observe(viewLifecycleOwner, { weatherDay ->
+            mainCityViewModel.insertWeatherDay(weatherDay)
+        })
+    }
+
+
 
 
     private fun checkLocation() {
@@ -159,7 +189,7 @@ class MainCityFragment : Fragment() {
                 try {
                        val resApiException = e as ResolvableApiException
                      this.startIntentSenderForResult(resApiException.resolution.intentSender,
-                         MainActivity.LOCATION_SETTING_REQUEST, null, 0,
+                         LOCATION_REQUEST_CODE_, null, 0,
                          0, 0, null)
 
                 } catch (sendEx: IntentSender.SendIntentException) { }
@@ -171,7 +201,7 @@ class MainCityFragment : Fragment() {
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (MainActivity.LOCATION_SETTING_REQUEST == requestCode) {
+        if (LOCATION_REQUEST_CODE_ == requestCode) {
             if(resultCode == Activity.RESULT_OK){
                 getLocation()
             } else {
@@ -224,10 +254,10 @@ class MainCityFragment : Fragment() {
                         addresses =
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         val city: String = addresses[0].locality
-
-                       // mainCityViewModel.liveDataMainCity.value?.mainCity = city
-                       // mainCityViewModel.liveDataMainCity.value?.error = false
-                        mainCityViewModel.liveDataCity.value = city
+                        val mainCity = MainCity()
+                        mainCity.mainCity = city
+                        mainCity.prevCity = mainCityViewModel.liveDataMainCity.value?.mainCity
+                        mainCityViewModel.insertMainCity(mainCity)
                         Log.d("EEE", "location is $city")
                     }
                 }

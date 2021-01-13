@@ -13,6 +13,11 @@ class MainCity {
 
     var mainCity: String? = null
 
-    var isEmpty  = false
+    var mainCityId: String? = null
+
+    var prevCity: String? = null
+
+    var prevCityId: String? = null
+
 
 }

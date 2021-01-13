@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.weatherapp.model.MainCity
 import com.app.weatherapp.model.weatherday.WeatherDay
+import com.app.weatherapp.model.weatherforid.IdCity
 import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
 import com.app.weatherapp.repository.Repo
 import com.app.weatherapp.repository.RepositoryBD
@@ -31,94 +32,47 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     val bd = Repo.getBD(context)
 
     var liveDataMainCity: LiveData<MainCity> = MutableLiveData()
-    var liveDataCity: MutableLiveData<String> = MutableLiveData()
+  //  var liveDataCity: MutableLiveData<String> = MutableLiveData()
     var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
 
 
 
-    fun setCity(city: String){
-    }
-
-//    fun checkFirstStart(){
-//        val preference= context.getSharedPreferences(
-//            context.resources
-//                .getString(com.app.weatherapp.R.string.app_name), Context.MODE_PRIVATE
-//        )
-//        val isFirstStart= preference.getBoolean(KEY_PREF, true)
-//        if(isFirstStart){
-//            val c = MainCity()
-//            c.isEmpty = true
-//            GlobalScope.launch {
-//                bd.insertMainCity(c)
-//            }
-//            val weatherDay = WeatherDay()
-//            weatherDay.isEmpty = true
-////            GlobalScope.launch {
-////                bd.insertWeatherDay(weatherDay)
-////            }
-//            val weatherDays = WeatherSeveralDays()
-//            weatherDays.isEmpty = true
-////            GlobalScope.launch {
-////                bd.insertWeatherSeveralDays(weatherDays)
-////            }
-//
-//            val editor  = preference.edit()
-//            editor.putBoolean(KEY_PREF, false)
-//            editor.apply()
-//        }
-//
-//    }
-
-
-
-
-
-    fun getBD(): RepositoryBD{
-        return bd
-    }
-
-    fun getMainCity() : LiveData<MainCity> {
-        liveDataMainCity =  bd.getMainCity()
+    fun getMainCity(): LiveData<MainCity> {
+        liveDataMainCity = bd.getMainCity()
         return liveDataMainCity
     }
 
-    fun getWeatherDayBD() : LiveData<WeatherDay> {
-        liveDataWeatherDay =  bd.getWeatherDay()
+    fun insertMainCity(mainCity: MainCity) {
+        GlobalScope.launch {
+            bd.insertMainCity(mainCity)
+        }
+    }
+
+    fun insertWeatherDay(weatherDay: WeatherDay) {
+        GlobalScope.launch {
+            bd.insertWeatherDay(weatherDay)
+        }
+    }
+
+    fun getWeatherDayBD(): LiveData<WeatherDay> {
+        liveDataWeatherDay = bd.getWeatherDay()
         return liveDataWeatherDay
     }
 
-
-
-    fun startApp(){
-
-//        val temp = MainCity();
-//        temp.mainCity = "Minsk"
-//        temp.error = false
-//
-//
-//
-//
-//        val bd = Repo.getBD(context)
-//        GlobalScope.launch {
-//            bd.insertMainCity(temp)
-//        }
-
-
-
-
-
+    fun getWeatherDayAPI(): LiveData<WeatherDay> {
+        return Repo.getWeatherDay(liveDataWeatherDay.value, liveDataMainCity.value!!.mainCityId)
 
     }
 
-    fun check(){
-
-
+    fun getIdCity(nameCity: String): MutableLiveData<IdCity>{
+        return Repo.getIdCityByName(nameCity)
     }
 
 
 
 
- //   var liveDataWeatherNow: MutableLiveData<ModelWeatherNow>? = null
+
+    //   var liveDataWeatherNow: MutableLiveData<ModelWeatherNow>? = null
 
 //    fun getWeather(): LiveData<ModelWeatherNow>? {
 //        liveDataWeatherNow = RepositoryApi.getWeatherNow()
