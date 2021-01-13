@@ -65,7 +65,11 @@ object RepositoryApi {
             }
         }
         idCityString?.let {
-            paramIds.append(it)
+
+            if(!paramIds.contains(idCityString)){
+                paramIds.append(it)
+            }
+
         }
 
         val params: MutableMap<String, String> = HashMap()
@@ -91,6 +95,7 @@ object RepositoryApi {
                 Log.d("EEE", response.toString())
 
                 val data = response.body()
+                data?.timeUpdate = System.currentTimeMillis()
                 liveDataWeatherDay.value = data
             }
         })

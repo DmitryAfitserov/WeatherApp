@@ -3,18 +3,12 @@ package com.app.weatherapp.view
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,9 +18,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.app.weatherapp.MainActivity
 import com.app.weatherapp.R
 import com.app.weatherapp.model.MainCity
+import com.app.weatherapp.utils.DateUtil
 import com.app.weatherapp.viewmodel.MainCityViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -46,7 +40,6 @@ class MainCityFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainCityViewModel = ViewModelProvider(this).get(MainCityViewModel::class.java)
-    //    mainCityViewModel.checkFirstStart()
 
     }
 
@@ -58,10 +51,7 @@ class MainCityFragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.section_label)
         textView.text = "MainCityFragment"
 
-
-
         mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { mainCity ->
-
 
             mainCity?.let {
                 Log.d("EEE", "mainCity update ok")
@@ -72,41 +62,50 @@ class MainCityFragment : Fragment() {
 
                 checkLocation()
             }
-
         })
 
         return root
     }
 
     private fun startLoadWeatherBD() {
-        Log.d("EEE", "startLoadWeather()")
+        var util = DateUtil()
         mainCityViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
 
             weatherDay?.let {
+                mainCityViewModel.weatherDay = weatherDay
+                Log.d("EEE", "weatherDay not null time update")
+                if(util.isNeedUpdate(mainCityViewModel.weatherDay!!.timeUpdate!!)){
 
-                Log.d("EEE", "answer from bd weather day is ok")
-                Log.d("EEE", "answer from bd weather day is ok lisrt name " + weatherDay.list!![0].name)
 
-            } ?: run {
-
-                if(mainCityViewModel.liveDataMainCity.value!!.mainCityId != null){
-                    getWeatherDayApi()
-                    Log.d("EEE", "answer from bd weather day mainCityId != null")
+                    Log.d("EEE", "check time update true time Update  =  " + weatherDay.timeUpdate!!)
+                    checkIdCity()
                 } else {
-                    getIdCity()
-                    Log.d("EEE", "answer from bd weather day mainCityId == null")
+
                 }
 
+            } ?: run {
+                checkIdCity()
             }
 
         })
     }
 
+    private fun checkIdCity(){
+        if(mainCityViewModel.liveDataMainCity.value!!.mainCityId != null){
+            Log.d("EEE", "answer from bd weather day mainCityId != null")
+            getWeatherDayApi()
+
+        } else {
+            getIdCity()
+            Log.d("EEE", "answer from bd weather day mainCityId == null")
+        }
+    }
+
     private fun getIdCity(){
 
-        mainCityViewModel.liveDataWeatherDay.value?.let {
+     //   mainCityViewModel.weatherDay.let {
 
-        } ?: run {
+    //    } ?: run {
             mainCityViewModel.getIdCity(mainCityViewModel.liveDataMainCity.value!!.mainCity!!)
                 .observe(viewLifecycleOwner, {
                     if(it.error == null){
@@ -119,12 +118,16 @@ class MainCityFragment : Fragment() {
 
                     }
                 })
-        }
+     //   }
     }
 
     private fun getWeatherDayApi(){
         mainCityViewModel.getWeatherDayAPI().observe(viewLifecycleOwner, { weatherDay ->
-            mainCityViewModel.insertWeatherDay(weatherDay)
+            Log.d("EEE", "insertWeatherDay in BD")
+            weatherDay?.let {
+                mainCityViewModel.insertWeatherDay(weatherDay)
+            }
+
         })
     }
 
@@ -254,11 +257,16 @@ class MainCityFragment : Fragment() {
                         addresses =
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         val city: String = addresses[0].locality
-                        val mainCity = MainCity()
-                        mainCity.mainCity = city
-                        mainCity.prevCity = mainCityViewModel.liveDataMainCity.value?.mainCity
-                        mainCityViewModel.insertMainCity(mainCity)
-                        Log.d("EEE", "location is $city")
+                        if(city.equals(mainCityViewModel.liveDataMainCity.value?.mainCity)){
+
+                        } else {
+                            val mainCity = MainCity()
+                            mainCity.mainCity = city
+                            mainCity.prevCity = mainCityViewModel.liveDataMainCity.value?.mainCity
+                            mainCityViewModel.insertMainCity(mainCity)
+                            Log.d("EEE", "location is $city")
+                        }
+
                     }
                 }
             }

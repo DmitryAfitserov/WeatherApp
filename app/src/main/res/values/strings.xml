@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="btn_set_city">Pick city</string>
+    <string name="btn_locate">Auto locate</string>
+    <string name="btn_update">Update</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>

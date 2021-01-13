@@ -3,9 +3,11 @@ package com.app.weatherapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.app.weatherapp.repository.Repo
 import com.app.weatherapp.view.AdapterViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -46,18 +48,6 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        //test 6
-
-
-
-
-
-
-        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-
-        }
 
 
 
@@ -80,5 +70,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        Log.d("EEE", "destroyBD()")
+        Repo.getBD(applicationContext).destroyBD()
+        super.onDestroy()
 
+    }
 }

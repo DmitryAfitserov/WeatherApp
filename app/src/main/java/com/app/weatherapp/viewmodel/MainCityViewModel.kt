@@ -32,9 +32,8 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     val bd = Repo.getBD(context)
 
     var liveDataMainCity: LiveData<MainCity> = MutableLiveData()
-  //  var liveDataCity: MutableLiveData<String> = MutableLiveData()
-    var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
-
+ //   var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
+        var weatherDay: WeatherDay? = null
 
 
     fun getMainCity(): LiveData<MainCity> {
@@ -55,12 +54,12 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getWeatherDayBD(): LiveData<WeatherDay> {
-        liveDataWeatherDay = bd.getWeatherDay()
-        return liveDataWeatherDay
+       // liveDataWeatherDay =
+        return bd.getWeatherDay()
     }
 
     fun getWeatherDayAPI(): LiveData<WeatherDay> {
-        return Repo.getWeatherDay(liveDataWeatherDay.value, liveDataMainCity.value!!.mainCityId)
+        return Repo.getWeatherDay(weatherDay, liveDataMainCity.value!!.mainCityId)
 
     }
 

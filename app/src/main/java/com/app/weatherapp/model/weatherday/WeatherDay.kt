@@ -15,6 +15,8 @@ class WeatherDay {
     @PrimaryKey
     var id: Int = 0
 
+    var timeUpdate: Long? = null
+
     @SerializedName("list")
     @Expose
     @TypeConverters(WeatherDayConverterRoom::class)
@@ -22,6 +24,8 @@ class WeatherDay {
 
     @Ignore
     var error: String? = null
+
+
 
 
     var isEmpty: Boolean? = false

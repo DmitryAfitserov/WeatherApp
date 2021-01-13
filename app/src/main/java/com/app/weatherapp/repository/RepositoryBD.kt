@@ -26,7 +26,7 @@ class RepositoryBD(context: Context) {
     }
 
     fun getWeatherDay(): LiveData<WeatherDay> {
-        Log.d("EEE", "getWeatherDay in BD ")
+        Log.d("EEE", "getWeatherDay getWeatherDay in BD ")
         return weatherDayDao.get()
     }
 
@@ -39,7 +39,7 @@ class RepositoryBD(context: Context) {
     }
 
     fun getWeatherSeveralDays(): LiveData<WeatherSeveralDays> {
-        Log.d("EEE", "getWeatherDay in BD ")
+        Log.d("EEE", "getWeatherSeveralDays getWeatherSeveralDays in BD ")
         return weatherSeveralDaysDao.get()
     }
 
@@ -51,7 +51,7 @@ class RepositoryBD(context: Context) {
     }
 
     fun getMainCity(): LiveData<MainCity> {
-        Log.d("EEE", "getWeatherDay in BD ")
+        Log.d("EEE", "getMainCity getMainCity in BD ")
         return mainCityDao.get()
     }
 
