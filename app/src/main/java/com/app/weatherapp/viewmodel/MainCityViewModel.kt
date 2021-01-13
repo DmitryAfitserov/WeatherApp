@@ -14,12 +14,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.weatherapp.model.MainCity
 import com.app.weatherapp.model.weatherday.WeatherDay
+import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
 import com.app.weatherapp.repository.Repo
 import com.app.weatherapp.repository.RepositoryBD
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.PendingResult
-import com.google.android.gms.common.api.ResultCallback
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,86 +31,44 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     val bd = Repo.getBD(context)
 
     var liveDataMainCity: LiveData<MainCity> = MutableLiveData()
+    var liveDataCity: MutableLiveData<String> = MutableLiveData()
     var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
 
 
-    fun checkFirstStart(){
-        val preference= context.getSharedPreferences(
-            context.resources
-                .getString(com.app.weatherapp.R.string.app_name), Context.MODE_PRIVATE
-        )
-        val isFirstStart= preference.getBoolean(KEY_PREF, true)
-        if(isFirstStart){
-            val c = MainCity()
-            c.error = true
-            GlobalScope.launch {
-                bd.insertMainCity(c)
-            }
-            val editor  = preference.edit()
-            editor.putBoolean(KEY_PREF, false)
-            editor.apply()
-        }
 
+    fun setCity(city: String){
     }
 
-    fun checkLocation(){
-
-//        val intent = Intent("android.location.GPS_ENABLED_CHANGE")
-//        intent.putExtra("enabled", true)
-//        context.sendBroadcast(intent)
-
-        var addresses: List<Address>
-        val geocoder = Geocoder(context, Locale.getDefault())
-
-
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        val mLocationRequest = LocationRequest.create()
-        mLocationRequest.interval = 60000
-        mLocationRequest.fastestInterval = 5000
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        val mLocationCallback: LocationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-
-                for (location in locationResult.locations) {
-                    if (location != null) {
-                        addresses =
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        val address: String = addresses[0].getAddressLine(0)
-                        val city: String = addresses[0].locality
-
-                        Log.d("EEE", "city $city")
-                    }
-                }
-            }
-        }
-
-
-        fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null)
-//            .addOnSuccessListener { location: Location? ->
-//
-//                if(location == null){
-//                    Log.d("EEE", "location null")
-//                } else {
-//                    addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-//                    val address: String = addresses[0].getAddressLine(0)
-//                    val city: String = addresses[0].locality
-//
-//                    Log.d("EEE", "city $city")
-//                }
-//
+//    fun checkFirstStart(){
+//        val preference= context.getSharedPreferences(
+//            context.resources
+//                .getString(com.app.weatherapp.R.string.app_name), Context.MODE_PRIVATE
+//        )
+//        val isFirstStart= preference.getBoolean(KEY_PREF, true)
+//        if(isFirstStart){
+//            val c = MainCity()
+//            c.isEmpty = true
+//            GlobalScope.launch {
+//                bd.insertMainCity(c)
 //            }
+//            val weatherDay = WeatherDay()
+//            weatherDay.isEmpty = true
+////            GlobalScope.launch {
+////                bd.insertWeatherDay(weatherDay)
+////            }
+//            val weatherDays = WeatherSeveralDays()
+//            weatherDays.isEmpty = true
+////            GlobalScope.launch {
+////                bd.insertWeatherSeveralDays(weatherDays)
+////            }
+//
+//            val editor  = preference.edit()
+//            editor.putBoolean(KEY_PREF, false)
+//            editor.apply()
+//        }
+//
+//    }
 
-    }
 
 
 

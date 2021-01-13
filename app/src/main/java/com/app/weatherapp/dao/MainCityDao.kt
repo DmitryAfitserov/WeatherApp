@@ -1,16 +1,13 @@
 package com.app.weatherapp.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.app.weatherapp.model.MainCity
 
 @Dao
 interface MainCityDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(mainCity: MainCity)
 
     @Query("SELECT * FROM MainCity")

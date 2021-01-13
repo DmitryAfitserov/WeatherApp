@@ -40,11 +40,12 @@ class MainCityFragment : Fragment() {
     private lateinit var mainCityViewModel: MainCityViewModel
     private val LOCATION_PERMISSION_CODE = 1002
   //  private val LOCATION_REQUEST_CODE_ = 1003
+    lateinit var mLocationRequest:LocationRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainCityViewModel = ViewModelProvider(this).get(MainCityViewModel::class.java)
-        mainCityViewModel.checkFirstStart()
+    //    mainCityViewModel.checkFirstStart()
 
     }
 
@@ -60,16 +61,21 @@ class MainCityFragment : Fragment() {
 
 
         mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { weather ->
+
             weather?.let {
-                if (it.error) {
-                    Log.d("EEE", "error city true")
-                    checkLocation()
-                } else {
-                    Log.d("EEE", "error city false")
 
                     startLoadWeather()
-                }
+
+            } ?: run {
+                Log.d("EEE", "error city false")
+
+                checkLocation()
             }
+
+        })
+        mainCityViewModel.liveDataCity.observe(viewLifecycleOwner, {
+            Log.d("EEE", "city is $it")
+            startLoadWeather()
 
         })
 
@@ -77,12 +83,21 @@ class MainCityFragment : Fragment() {
     }
 
     private fun startLoadWeather() {
+        Log.d("EEE", "startLoadWeather()")
         mainCityViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weather ->
+
+            Log.d("EEE", "answer from bd weather day")
             weather?.let {
+                Log.d("EEE", "answer from bd weather day")
+            } ?: run {
 
             }
 
         })
+    }
+
+    private fun getWeather(){
+
     }
 
 
@@ -121,7 +136,7 @@ class MainCityFragment : Fragment() {
 
 
     private fun displayLocationSettingsRequest(){
-        val mLocationRequest = LocationRequest.create()
+        mLocationRequest = LocationRequest.create()
         mLocationRequest.interval = 60000
         mLocationRequest.fastestInterval = 5000
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -159,7 +174,6 @@ class MainCityFragment : Fragment() {
         if (MainActivity.LOCATION_SETTING_REQUEST == requestCode) {
             if(resultCode == Activity.RESULT_OK){
                 getLocation()
-                Log.d("EEE", "LOCATION_REQUEST_CODE is true")
             } else {
 
             }
@@ -185,7 +199,7 @@ class MainCityFragment : Fragment() {
 
     }
 
-    fun getLocation(){
+    private fun getLocation(){
 
         var addresses: List<Address>
         val geocoder = Geocoder(context, Locale.getDefault())
@@ -201,10 +215,7 @@ class MainCityFragment : Fragment() {
         ) {
             return
         }
-        val mLocationRequest = LocationRequest.create()
-        mLocationRequest.interval = 60000
-        mLocationRequest.fastestInterval = 5000
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
         val mLocationCallback: LocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
 
@@ -212,10 +223,12 @@ class MainCityFragment : Fragment() {
                     if (location != null) {
                         addresses =
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        val address: String = addresses[0].getAddressLine(0)
                         val city: String = addresses[0].locality
 
-                        Log.d("EEE", "city $city")
+                       // mainCityViewModel.liveDataMainCity.value?.mainCity = city
+                       // mainCityViewModel.liveDataMainCity.value?.error = false
+                        mainCityViewModel.liveDataCity.value = city
+                        Log.d("EEE", "location is $city")
                     }
                 }
             }

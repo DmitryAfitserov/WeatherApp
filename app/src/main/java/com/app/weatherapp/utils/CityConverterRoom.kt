@@ -16,7 +16,7 @@ class CityConverterRoom {
     }
 
     @TypeConverter
-    fun toObject(data: String): City {
+    fun toObject(data: String?): City {
         val objectType: Type = object : TypeToken<City>() {}.type
         return Gson().fromJson(data, objectType)
     }

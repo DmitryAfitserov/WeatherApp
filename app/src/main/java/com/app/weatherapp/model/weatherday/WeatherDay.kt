@@ -24,4 +24,6 @@ class WeatherDay {
     var error: String? = null
 
 
+    var isEmpty: Boolean? = false
+
 }

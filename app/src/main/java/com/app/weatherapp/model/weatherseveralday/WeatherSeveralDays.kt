@@ -42,4 +42,6 @@ class WeatherSeveralDays {
     @Ignore
     var error:String? = null
 
+    var isEmpty: Boolean? = false
+
 }
