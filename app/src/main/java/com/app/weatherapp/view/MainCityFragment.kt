@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -27,6 +28,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import kotlinx.android.synthetic.main.fragment_main_city.*
 import java.util.*
 
 
@@ -50,6 +52,14 @@ class MainCityFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_main_city, container, false)
         val textView: TextView = root.findViewById(R.id.section_label)
         textView.text = "MainCityFragment"
+
+
+       // val btnLocate = root.findViewById<Button>(R.id.btn)
+        val buttonLocate = root.findViewById<Button>(R.id.buttonLocate)
+        buttonLocate.setOnClickListener{
+            checkLocation()
+        }
+
 
         mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { mainCity ->
 
@@ -183,8 +193,6 @@ class MainCityFragment : Fragment() {
             val states = response.locationSettingsStates
             if (states.isLocationPresent) {
                 getLocation()
-                Log.d("EEE", "isLocationPresent is true")
-
             }
         }
         result.addOnFailureListener { e ->
@@ -258,7 +266,7 @@ class MainCityFragment : Fragment() {
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         val city: String = addresses[0].locality
                         if(city.equals(mainCityViewModel.liveDataMainCity.value?.mainCity)){
-
+                            
                         } else {
                             val mainCity = MainCity()
                             mainCity.mainCity = city
