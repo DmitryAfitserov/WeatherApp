@@ -24,6 +24,10 @@ object Repo {
         return RepositoryApi.getLiveDataWeatherDayOb()
     }
 
+    fun getWeatherSeveralDaysOb() : MutableLiveData<WeatherSeveralDays>{
+        return RepositoryApi.getLiveWeatherSeveralDaysOb()
+    }
+
     fun getWeatherSeveralDays(nameCity: String, countDays: Int): MutableLiveData<WeatherSeveralDays> {
         return  RepositoryApi.getWeatherSeveralDays(nameCity, countDays)
     }

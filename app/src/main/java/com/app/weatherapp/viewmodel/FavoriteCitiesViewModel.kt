@@ -39,7 +39,6 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
         return liveDataMainCity
     }
 
-
     fun deletePosition(position:Int){
 
         if(liveDataWeatherDay.value!!.list!![position].id!!.equals(liveDataMainCity.value!!.mainCityId)){
@@ -51,15 +50,12 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
         insertWeatherDayBD(liveDataWeatherDay.value!!)
         insertMainCityBD(liveDataMainCity.value!!)
 
-
-
     }
 
     private fun insertWeatherDayBD(weatherDay:WeatherDay){
         GlobalScope.launch {
             bd.insertWeatherDay(weatherDay)
         }
-
 
     }
     private fun insertMainCityBD(mainCity: MainCity){
@@ -69,7 +65,6 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
 
 
     }
-
 
     fun prepareList(){
         countRequest++
@@ -92,8 +87,6 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
             }
             countRequest = 0
         }
-
-
     }
 
 

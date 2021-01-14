@@ -36,7 +36,7 @@ object RepositoryApi {
 
         val params: MutableMap<String, String> = HashMap()
         params["q"] = name
-        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
+        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
         params["units"] = "metric"
 
         val call = RetrofitBuilder.apiInterface.getIdCityByName(params)
@@ -91,7 +91,7 @@ object RepositoryApi {
 
         val params: MutableMap<String, String> = HashMap()
         params["id"] = paramIds.toString()
-        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
+        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
         params["units"] = "metric"
 
         val call = RetrofitBuilder.apiInterface.getWeatherDay(params)
@@ -125,7 +125,7 @@ object RepositoryApi {
 
         val params: MutableMap<String, String> = HashMap()
         params["q"] = nameCity
-        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
+        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
         params["units"] = "metric"
         params["cnt"] = countDays.toString()
 

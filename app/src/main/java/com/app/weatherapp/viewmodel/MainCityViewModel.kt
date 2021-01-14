@@ -13,6 +13,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.weatherapp.model.MainCity
+import com.app.weatherapp.model.weatherday.ListData
 import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.model.weatherforid.IdCity
 import com.app.weatherapp.model.weatherseveralday.WeatherSeveralDays
@@ -33,8 +34,10 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
 
     var liveDataMainCity: LiveData<MainCity> = MutableLiveData()
     var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
+    var liveDataWeatherSeveralDays: MutableLiveData<WeatherSeveralDays> = MutableLiveData()
     var liveDataIdCity: MutableLiveData<IdCity> = MutableLiveData()
-        var weatherDay: WeatherDay? = null
+    var liveDataWeatherMainCity: MutableLiveData<ListData> = MutableLiveData()
+     //   var weatherDay: WeatherDay? = null
 
 
     fun getMainCity(): LiveData<MainCity> {
@@ -71,6 +74,21 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     fun getIdCity(nameCity: String): MutableLiveData<IdCity>{
         liveDataIdCity =  Repo.getIdCityByName(nameCity)
         return liveDataIdCity
+    }
+
+    fun getWeatherSeveralDaysApiOB(): MutableLiveData<WeatherSeveralDays>{
+        liveDataWeatherSeveralDays = Repo.getWeatherSeveralDaysOb()
+        return liveDataWeatherSeveralDays
+    }
+
+    fun getWeatherSeveralDaysApi(): MutableLiveData<WeatherSeveralDays>{
+        return Repo.getWeatherSeveralDays(liveDataWeatherMainCity.value?.name!!, countDays = 8)
+    }
+
+    fun insertWeatherSeveralDays() {
+        GlobalScope.launch {
+            bd.insertWeatherSeveralDays(liveDataWeatherSeveralDays.value!!)
+        }
     }
 
 
