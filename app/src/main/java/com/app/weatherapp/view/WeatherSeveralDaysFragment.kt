@@ -32,7 +32,6 @@ class WeatherSeveralDaysFragment: Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_several_days, container, false)
 
-
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
@@ -41,12 +40,12 @@ class WeatherSeveralDaysFragment: Fragment() {
 
 
         severalDaysViewModel.getSeveralDaysBD().observe(viewLifecycleOwner, { weatherDay ->
-            Log.d("FFF", "answer")
+            Log.d("SSS", "answer")
             weatherDay?.let {
-                //    favoriteCitiesViewModel.list = weatherDay.list!!
-                replaceList(weatherDay.list, severalDaysViewModel.list)
 
-                Log.d("FFF", "list size = " + weatherDay.list!!.size.toString())
+                severalDaysViewModel.prepareList(weatherDay)
+
+                Log.d("SSS", "list size = " + weatherDay.list!!.size.toString())
                 adapter.notifyDataSetChanged()
             }
         })
@@ -54,11 +53,5 @@ class WeatherSeveralDaysFragment: Fragment() {
         return root
     }
 
-    private fun replaceList(listAnswer: ArrayList<DataWeatherDay>?, listInAdapter: ArrayList<DataWeatherDay>, ){
-        listInAdapter.clear()
-        listAnswer?.forEach {
-            listInAdapter.add(it)
-        }
-    }
 
 }

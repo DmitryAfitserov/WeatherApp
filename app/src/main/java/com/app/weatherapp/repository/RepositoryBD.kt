@@ -19,28 +19,43 @@ class RepositoryBD(context: Context) {
     private var weatherSeveralDaysDao: WeatherSeveralDaysDao = db!!.weatherSeveralDaysDao()
     private var mainCityDao: MainCityDao = db!!.mainCityDao()
 
-    suspend fun insertWeatherDay(weatherDay: WeatherDay): Long? {
+    suspend fun insertWeatherDay(weatherDay: WeatherDay) {
         val newId = weatherDayDao.insert(weatherDay)
-        // bookmark.id = newId
-        return 0
+
+    }
+
+    fun insertSynchWeatherDay(weatherDay: WeatherDay) {
+        val newId = weatherDayDao.insertSynch(weatherDay)
     }
 
     fun getWeatherDay(): LiveData<WeatherDay> {
-        Log.d("EEE", "getWeatherDay getWeatherDay in BD ")
         return weatherDayDao.get()
+    }
+
+    fun getSynchWeatherDay(): WeatherDay {
+        return weatherDayDao.getSynch()
     }
 
 
 
-    suspend fun insertWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays): Long? {
-        val newId = weatherSeveralDaysDao.insert(weatherSeveralDays)
-        // bookmark.id = newId
-        return 0
+    suspend fun insertWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays) {
+         weatherSeveralDaysDao.insert(weatherSeveralDays)
+
+    }
+
+    fun insertSynchWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays) {
+        weatherSeveralDaysDao.insertSynch(weatherSeveralDays)
+
     }
 
     fun getWeatherSeveralDays(): LiveData<WeatherSeveralDays> {
         Log.d("EEE", "getWeatherSeveralDays getWeatherSeveralDays in BD ")
         return weatherSeveralDaysDao.get()
+    }
+
+    fun getSynchWeatherSeveralDays(): WeatherSeveralDays {
+        Log.d("EEE", "getWeatherSeveralDays getWeatherSeveralDays in BD ")
+        return weatherSeveralDaysDao.getSynch()
     }
 
 

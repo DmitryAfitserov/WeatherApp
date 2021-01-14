@@ -14,10 +14,10 @@ import com.app.weatherapp.model.weatherday.ListData
 import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.viewmodel.FavoriteCitiesViewModel
 
-class FavoriteCityFragment: Fragment() {
+class FavoriteCityFragment : Fragment() {
 
     private lateinit var favoriteCitiesViewModel: FavoriteCitiesViewModel
-    private lateinit var adapter : AdapterFavoriteCities
+    private lateinit var adapter: AdapterFavoriteCities
     private var fragmentExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,19 +36,17 @@ class FavoriteCityFragment: Fragment() {
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
-        adapter = AdapterFavoriteCities(favoriteCitiesViewModel.listToAdapter, object : ClickListener {
-            override fun onPositionClicked(position: Int) {
-                Log.d("FFF", "delete pos = $position")
-               // favoriteCitiesViewModel.list.removeAt(position)
-                favoriteCitiesViewModel.deletePosition(position)
+        adapter =
+            AdapterFavoriteCities(favoriteCitiesViewModel.listToAdapter, object : ClickListener {
+                override fun onPositionClicked(position: Int) {
+                    Log.d("FFF", "delete pos = $position")
+                    favoriteCitiesViewModel.deletePosition(position)
 
-            }
-        })
-
-
+                }
+            })
         recyclerView.adapter = adapter
 
-        favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, {mainCity  ->
+        favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, { mainCity ->
             mainCity?.let {
                 Log.d("FFF", "getMainCityBD")
                 observerBD()
@@ -62,16 +60,13 @@ class FavoriteCityFragment: Fragment() {
             }
         })
 
-
-
         return root
     }
 
-    fun observerBD(){
+    private fun observerBD() {
         favoriteCitiesViewModel.prepareList()
         adapter.notifyDataSetChanged()
     }
-
 
     override fun onPause() {
         favoriteCitiesViewModel.liveDataMainCity.removeObservers(viewLifecycleOwner)
@@ -81,8 +76,8 @@ class FavoriteCityFragment: Fragment() {
     }
 
     override fun onResume() {
-        if(fragmentExist){
-            favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, {mainCity  ->
+        if (fragmentExist) {
+            favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, { mainCity ->
                 mainCity?.let {
                     Log.d("FFF", "getMainCityBD")
                     observerBD()
@@ -98,8 +93,6 @@ class FavoriteCityFragment: Fragment() {
         } else {
             fragmentExist = true
         }
-
-
         super.onResume()
 
     }

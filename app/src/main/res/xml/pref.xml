@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.PreferenceCategory
+        android:title="@string/auto_update"
+        >
+
+        <androidx.preference.SwitchPreference
+
+            android:defaultValue="false"
+            android:key="@string/key_auto_update"
+            android:summary="@string/on_auto_update"
+            android:title="@string/update" />
+
+        <androidx.preference.ListPreference
+
+            android:key="@string/key_interval"
+            android:title="@string/interval_update"
+            android:dialogTitle="@string/select_time"
+            android:entries="@array/interval_update"
+            android:entryValues="@array/interval_update_key"
+            android:summary="%s"
+            />
+
+
+
+    </androidx.preference.PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

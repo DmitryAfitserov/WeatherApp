@@ -30,6 +30,82 @@ object RepositoryApi {
         return liveDataWeatherSeveralDays
     }
 
+    fun getSynchWeatherDay(weatherDayOld: WeatherDay?): WeatherDay{
+        // http://api.openweathermap.org/data/2.5/group?id=524901,703448,627904&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
+
+        val paramIds = StringBuilder()
+
+        weatherDayOld?.let {
+            it.list?.forEach {
+                paramIds.append(it.id).append(",")
+            }
+        }
+
+        val params: MutableMap<String, String> = HashMap()
+        params["id"] = paramIds.toString()
+        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
+        params["units"] = "metric"
+
+        val call = RetrofitBuilder.apiInterface.getWeatherDay(params)
+
+        var weatherDay: WeatherDay? = null
+        try {
+            val data = call.execute()
+
+            data.body()?.let {
+                weatherDay = data.body()
+                weatherDay?.timeUpdate = System.currentTimeMillis()
+            } ?: run {
+                weatherDay = WeatherDay()
+                weatherDay!!.error = "error"
+            }
+
+        }
+        catch (ex:Exception )
+        {
+            ex.printStackTrace();
+            weatherDay = WeatherDay()
+            weatherDay!!.error = ex.message.toString()
+        }
+        return weatherDay!!
+    }
+
+    fun getSynchSeveralWeatherDay(nameCity: String, countDays: Int): WeatherSeveralDays{
+
+        // http://api.openweathermap.org/data/2.5/forecast/daily?q=minsk&cnt=4&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
+
+        val params: MutableMap<String, String> = HashMap()
+        params["q"] = nameCity
+        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
+        params["units"] = "metric"
+        params["cnt"] = countDays.toString()
+
+        val call = RetrofitBuilder.apiInterface.getWeatherSeveralDays(params)
+
+        var weatherSeveralDays: WeatherSeveralDays? = null
+        try {
+            val data = call.execute()
+
+            data.body()?.let {
+                weatherSeveralDays = data.body()
+
+            } ?: run {
+                weatherSeveralDays = WeatherSeveralDays()
+                weatherSeveralDays!!.error = "error"
+            }
+
+        }
+        catch (ex:Exception )
+        {
+            ex.printStackTrace();
+            weatherSeveralDays = WeatherSeveralDays()
+            weatherSeveralDays!!.error = ex.message.toString()
+        }
+        return weatherSeveralDays!!
+
+
+    }
+
     fun getIdCityByName(name: String): MutableLiveData<IdCity> {
 
         // http://api.openweathermap.org/data/2.5/weather?q=minsk&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric

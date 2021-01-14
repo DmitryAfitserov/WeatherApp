@@ -20,7 +20,7 @@ class AdapterSeveralDaysFragment(private var list: List<DataWeatherDay>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.largeTextView?.text = list[position].feelsLike.toString()
+        holder.largeTextView?.text = list[position].humidity
     }
 
 

@@ -13,7 +13,7 @@ import com.app.weatherapp.repository.Repo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(application) {
+class FavoriteCitiesViewModel(application: Application) : AndroidViewModel(application) {
 
     var listToAdapter: ArrayList<ListData> = arrayListOf()
 
@@ -29,21 +29,18 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
 
     fun getWeatherDayBD(): LiveData<WeatherDay> {
         liveDataWeatherDay = bd.getWeatherDay()
-
         return liveDataWeatherDay
     }
 
     fun getMainCityBD(): LiveData<MainCity> {
         liveDataMainCity = bd.getMainCity()
-
         return liveDataMainCity
     }
 
-    fun deletePosition(position:Int){
+    fun deletePosition(position: Int) {
 
-        if(liveDataWeatherDay.value!!.list!![position].id!!.equals(liveDataMainCity.value!!.mainCityId)){
+        if (liveDataWeatherDay.value!!.list!![position].id!!.equals(liveDataMainCity.value!!.mainCityId)) {
             liveDataMainCity.value!!.isFav = false
-
         } else {
             liveDataWeatherDay.value!!.list!!.removeAt(position)
         }
@@ -52,33 +49,32 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
 
     }
 
-    private fun insertWeatherDayBD(weatherDay:WeatherDay){
+    private fun insertWeatherDayBD(weatherDay: WeatherDay) {
         GlobalScope.launch {
             bd.insertWeatherDay(weatherDay)
         }
 
     }
-    private fun insertMainCityBD(mainCity: MainCity){
+
+    private fun insertMainCityBD(mainCity: MainCity) {
         GlobalScope.launch {
             bd.insertMainCity(mainCity)
         }
-
-
     }
 
-    fun prepareList(){
+    fun prepareList() {
         countRequest++
-        if(countRequest == referenceRequest){
-            if(liveDataMainCity.value != null && liveDataWeatherDay.value != null){
+        if (countRequest == referenceRequest) {
+            if (liveDataMainCity.value != null && liveDataWeatherDay.value != null) {
                 listToAdapter.clear()
-                if(liveDataMainCity.value!!.isFav){
+                if (liveDataMainCity.value!!.isFav) {
                     Log.d("FFF", "isFav")
                     liveDataWeatherDay.value!!.list?.forEach {
                         listToAdapter.add(it)
                     }
                 } else {
                     liveDataWeatherDay.value!!.list?.forEach {
-                        if(!liveDataMainCity.value!!.mainCityId!!.equals(it.id))
+                        if (!liveDataMainCity.value!!.mainCityId!!.equals(it.id))
                             listToAdapter.add(it)
                         Log.d("FFF", "not is fav")
                     }
@@ -88,7 +84,6 @@ class FavoriteCitiesViewModel (application: Application) : AndroidViewModel(appl
             countRequest = 0
         }
     }
-
 
 
 }

@@ -36,4 +36,13 @@ object Repo {
         return RepositoryBD(context)
     }
 
+    fun getSynchWeatherSeveralDays(nameCity: String, countDays: Int): WeatherSeveralDays {
+        return  RepositoryApi.getSynchSeveralWeatherDay(nameCity, countDays)
+    }
+
+    fun getSynchWeatherDay(weatherDay: WeatherDay?) : WeatherDay{
+        return RepositoryApi.getSynchWeatherDay(weatherDay)
+    }
+
+
 }
