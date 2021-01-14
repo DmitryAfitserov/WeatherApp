@@ -17,15 +17,20 @@ class WorkerUpdate(private var context: Context, workerParams: WorkerParameters)
 
 
 
-        TimeUnit.SECONDS.sleep(10);
-
         val weatherDay = bd.getSynchWeatherDay()
 
         val weatherDayNew = Repo.getSynchWeatherDay(weatherDay)
+        if(weatherDayNew.error != null){
+            return Result.failure()
+        }
 
         val severalDays = bd.getSynchWeatherSeveralDays()
 
+
         val severalDaysNew = Repo.getSynchWeatherSeveralDays(severalDays.city?.name!!, severalDays.list!!.size)
+        if(severalDaysNew.error != null){
+            return Result.failure()
+        }
 
         bd.insertSynchWeatherDay(weatherDayNew)
         bd.insertSynchWeatherSeveralDays(severalDaysNew)
