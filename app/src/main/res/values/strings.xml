@@ -1,8 +1,21 @@
 <resources>
     <string name="app_name">Weather App</string>
-    <string name="btn_set_city">Pick city</string>
+    <string name="btn_set_city">Select city</string>
     <string name="btn_locate">Auto locate</string>
     <string name="btn_update">Update</string>
+    <string name="btn_to_fav">To Favorite</string>
+    <string name="btn_from_fav">From Favorite</string>
+
+    <string name="error_loading">Error loading</string>
+
+    //dialog
+    <string name="input_name_city">Input name city</string>
+    <string name="example">example : Moscow</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="city_not_found">City not found</string>
+
+
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>

@@ -19,5 +19,7 @@ class MainCity {
 
     var prevCityId: String? = null
 
+    var isFav = false
+
 
 }

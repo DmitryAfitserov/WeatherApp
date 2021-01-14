@@ -19,13 +19,24 @@ object RepositoryApi {
     val liveDataWeatherDay = MutableLiveData<WeatherDay>()
     val liveDataWeatherSeveralDays = MutableLiveData<WeatherSeveralDays>()
 
+
+    fun getLiveDataIdCityOb(): MutableLiveData<IdCity>{
+        return liveDataIdCity
+    }
+    fun getLiveDataWeatherDayOb(): MutableLiveData<WeatherDay>{
+        return liveDataWeatherDay
+    }
+    fun getLiveWeatherSeveralDaysOb(): MutableLiveData<WeatherSeveralDays>{
+        return liveDataWeatherSeveralDays
+    }
+
     fun getIdCityByName(name: String): MutableLiveData<IdCity> {
 
         // http://api.openweathermap.org/data/2.5/weather?q=minsk&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
 
         val params: MutableMap<String, String> = HashMap()
         params["q"] = name
-        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
+        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
         params["units"] = "metric"
 
         val call = RetrofitBuilder.apiInterface.getIdCityByName(params)
@@ -44,7 +55,13 @@ object RepositoryApi {
             ) {
                 //   Log.d("EEE", response.body().toString())
 
-                val data = response.body()
+                var data = response.body()
+                if(data == null){
+                    var city = IdCity()
+                    city.error = "City not found"
+                    data = city
+
+                }
                 //  Log.d("EEE", "id city  = " + data?.id.toString())
                 liveDataIdCity.value = data
             }
@@ -74,7 +91,7 @@ object RepositoryApi {
 
         val params: MutableMap<String, String> = HashMap()
         params["id"] = paramIds.toString()
-        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
+        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
         params["units"] = "metric"
 
         val call = RetrofitBuilder.apiInterface.getWeatherDay(params)
@@ -108,7 +125,7 @@ object RepositoryApi {
 
         val params: MutableMap<String, String> = HashMap()
         params["q"] = nameCity
-        params["appid"] = "fc199427e9a8ee2bee5dc1222759d908"
+        params["appid"] = "be98bdbd198fd26f9879134b33a0ccd6"
         params["units"] = "metric"
         params["cnt"] = countDays.toString()
 

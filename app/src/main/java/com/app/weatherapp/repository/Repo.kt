@@ -12,8 +12,16 @@ object Repo {
         return RepositoryApi.getIdCityByName(name)
     }
 
+    fun getIdCityByNameOb(): MutableLiveData<IdCity> {
+        return RepositoryApi.getLiveDataIdCityOb()
+    }
+
     fun getWeatherDay(weatherDay: WeatherDay?, idCityString: String?) : MutableLiveData<WeatherDay>{
         return RepositoryApi.getWeatherDay(weatherDay, idCityString)
+    }
+
+    fun getWeatherDayOb() : MutableLiveData<WeatherDay>{
+        return RepositoryApi.getLiveDataWeatherDayOb()
     }
 
     fun getWeatherSeveralDays(nameCity: String, countDays: Int): MutableLiveData<WeatherSeveralDays> {

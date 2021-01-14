@@ -32,7 +32,8 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     val bd = Repo.getBD(context)
 
     var liveDataMainCity: LiveData<MainCity> = MutableLiveData()
- //   var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
+    var liveDataWeatherDay: LiveData<WeatherDay> = MutableLiveData()
+    var liveDataIdCity: MutableLiveData<IdCity> = MutableLiveData()
         var weatherDay: WeatherDay? = null
 
 
@@ -54,29 +55,26 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getWeatherDayBD(): LiveData<WeatherDay> {
-       // liveDataWeatherDay =
-        return bd.getWeatherDay()
+        liveDataWeatherDay = bd.getWeatherDay()
+        return liveDataWeatherDay
     }
 
-    fun getWeatherDayAPI(): LiveData<WeatherDay> {
-        return Repo.getWeatherDay(weatherDay, liveDataMainCity.value!!.mainCityId)
+    fun getWeatherDayAPI(weatherDayCorrect:WeatherDay?): LiveData<WeatherDay> {
+        return Repo.getWeatherDay(weatherDayCorrect, liveDataMainCity.value!!.mainCityId)
 
+    }
+
+    fun getWeatherDayApiOb(): LiveData<WeatherDay> {
+        return Repo.getWeatherDayOb()
     }
 
     fun getIdCity(nameCity: String): MutableLiveData<IdCity>{
-        return Repo.getIdCityByName(nameCity)
+        liveDataIdCity =  Repo.getIdCityByName(nameCity)
+        return liveDataIdCity
     }
 
 
 
-
-
-    //   var liveDataWeatherNow: MutableLiveData<ModelWeatherNow>? = null
-
-//    fun getWeather(): LiveData<ModelWeatherNow>? {
-//        liveDataWeatherNow = RepositoryApi.getWeatherNow()
-//        return liveDataWeatherNow
-//    }
 
 
 }

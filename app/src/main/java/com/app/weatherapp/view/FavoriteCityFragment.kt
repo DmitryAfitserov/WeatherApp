@@ -11,17 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.weatherapp.R
 import com.app.weatherapp.model.weatherday.ListData
+import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.viewmodel.FavoriteCitiesViewModel
 
 class FavoriteCityFragment: Fragment() {
 
     private lateinit var favoriteCitiesViewModel: FavoriteCitiesViewModel
     private lateinit var adapter : AdapterFavoriteCities
+    private var fragmentExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         favoriteCitiesViewModel = ViewModelProvider(this).get(FavoriteCitiesViewModel::class.java)
-
 
     }
 
@@ -35,31 +36,71 @@ class FavoriteCityFragment: Fragment() {
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
-        adapter = AdapterFavoriteCities(favoriteCitiesViewModel.list)
+        adapter = AdapterFavoriteCities(favoriteCitiesViewModel.listToAdapter, object : ClickListener {
+            override fun onPositionClicked(position: Int) {
+                Log.d("FFF", "delete pos = $position")
+               // favoriteCitiesViewModel.list.removeAt(position)
+                favoriteCitiesViewModel.deletePosition(position)
+
+            }
+        })
+
+
         recyclerView.adapter = adapter
 
+        favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, {mainCity  ->
+            mainCity?.let {
+                Log.d("FFF", "getMainCityBD")
+                observerBD()
+            }
+        })
 
         favoriteCitiesViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
-            Log.d("FFF", "answer")
-                weatherDay?.let {
-                //    favoriteCitiesViewModel.list = weatherDay.list!!
-                    replaceList(weatherDay.list, favoriteCitiesViewModel.list)
-
-                    Log.d("FFF", "list size = " + weatherDay.list!!.size.toString())
-                    adapter.notifyDataSetChanged()
-                }
-
-            })
+            weatherDay?.let {
+                Log.d("FFF", "getWeatherDayBD")
+                observerBD()
+            }
+        })
 
 
 
         return root
     }
 
-    private fun replaceList(listAnswer: ArrayList<ListData>?, listInAdapter: ArrayList<ListData>, ){
-        listAnswer?.forEach {
-            listInAdapter.add(it)
-        }
+    fun observerBD(){
+        favoriteCitiesViewModel.prepareList()
+        adapter.notifyDataSetChanged()
     }
 
+
+    override fun onPause() {
+        favoriteCitiesViewModel.liveDataMainCity.removeObservers(viewLifecycleOwner)
+        favoriteCitiesViewModel.liveDataWeatherDay.removeObservers(viewLifecycleOwner)
+        super.onPause()
+
+    }
+
+    override fun onResume() {
+        if(fragmentExist){
+            favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, {mainCity  ->
+                mainCity?.let {
+                    Log.d("FFF", "getMainCityBD")
+                    observerBD()
+                }
+            })
+
+            favoriteCitiesViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
+                weatherDay?.let {
+                    Log.d("FFF", "getWeatherDayBD")
+                    observerBD()
+                }
+            })
+        } else {
+            fragmentExist = true
+        }
+
+
+        super.onResume()
+
+    }
 }
