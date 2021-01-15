@@ -1,22 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:background="@drawable/border_item"
+    android:layout_margin="4dp"
+    android:padding="4dp"
     >
 
     <TextView
+        android:id="@+id/textSeveralDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dfdfdf"
-        android:id="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="4dp"
+        android:gravity="start"
+        android:paddingStart="8dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </TextView>
+    <TextView
+        android:id="@+id/textSeveralDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="start"
+        android:paddingStart="8dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:id="@+id/textSeveralMorn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralDesc"/>
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:id="@+id/textSeveralDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralMorn" />
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:id="@+id/textSeveralEve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralDay" />
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_margin="4dp"
+        android:id="@+id/textSeveralNig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralEve" />
+
+    <TextView
+        android:id="@+id/textSeveralPressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralDesc" />
+
+    <TextView
+        android:id="@+id/textSeveralHumid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralPressure" />
+
+    <TextView
+        android:id="@+id/textSeveralWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralHumid" />
+
+    <TextView
+        android:id="@+id/textSeveralCl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSeveralWind" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

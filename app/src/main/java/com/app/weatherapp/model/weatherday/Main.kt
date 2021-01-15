@@ -11,29 +11,29 @@ class Main {
 
     @SerializedName("temp")
     @Expose
-    var temp: Float? = null
+    var temp: String? = null
 
 
     @SerializedName("feels_like")
     @Expose
-    var feelsLike: Float? = null
+    var feelsLike: String? = null
 
 
     @SerializedName("temp_min")
     @Expose
-    var tempMin: Float? = null
+    var tempMin: String? = null
 
 
     @SerializedName("temp_max")
     @Expose
-    var tempMax: Float? = null
+    var tempMax: String? = null
 
-    @SerializedName("pressure")
-    @Expose
-    var pressure: String? = null
+//    @SerializedName("pressure")
+//    @Expose
+//    var pressure: String? = null
 
     @SerializedName("humidity")
     @Expose
-    var humidity: Int? = null
+    var humidity: String? = null
 
 }

@@ -21,8 +21,8 @@ class Weather {
     @Expose
     var description: String? = null
 
-    @SerializedName("icon")
-    @Expose
-    var icon: String? = null
+//    @SerializedName("icon")
+//    @Expose
+//    var icon: String? = null
 
 }

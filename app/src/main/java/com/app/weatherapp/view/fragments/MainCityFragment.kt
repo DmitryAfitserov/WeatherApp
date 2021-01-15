@@ -1,4 +1,4 @@
-package com.app.weatherapp.view
+package com.app.weatherapp.view.fragments
 
 
 import android.Manifest
@@ -10,23 +10,23 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.weatherapp.R
+import com.app.weatherapp.databinding.FragmentMainCityBinding
+import com.app.weatherapp.databinding.FragmentSeveralDaysBinding
 import com.app.weatherapp.model.MainCity
-import com.app.weatherapp.model.weatherday.WeatherDay
 import com.app.weatherapp.utils.DateUtil
 import com.app.weatherapp.viewmodel.MainCityViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
 
@@ -37,7 +37,6 @@ class MainCityFragment : Fragment() {
     private val LOCATION_PERMISSION_CODE = 1002
     private val LOCATION_REQUEST_CODE_ = 1003
     lateinit var mLocationRequest: LocationRequest
-    lateinit var textViewCityName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,50 +48,68 @@ class MainCityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_main_city, container, false)
-        val fab: FloatingActionButton = root.findViewById(R.id.fab)
 
-        textViewCityName = root.findViewById<TextView>(R.id.text_view_name_city)
+        val binding: FragmentMainCityBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_main_city, container, false
+        )
 
-
-        val buttonLocate = root.findViewById<Button>(R.id.buttonLocate)
-        buttonLocate.setOnClickListener {
+        binding.buttonLocate.setOnClickListener {
             checkLocation()
         }
 
-        val buttonFav = root.findViewById<Button>(R.id.buttonFav)
 
-        buttonFav.setOnClickListener {
+        binding.buttonFav.setOnClickListener {
 
             mainCityViewModel.liveDataMainCity.value?.isFav?.let {
-                if(mainCityViewModel.liveDataMainCity.value?.isFav!!){
+                if (mainCityViewModel.liveDataMainCity.value?.isFav!!) {
                     mainCityViewModel.liveDataMainCity.value!!.isFav = false
-                    buttonFav.text = context!!.resources.getString(R.string.btn_to_fav)
-                    Log.d("EEE", "click  false")
+                    binding.buttonFav.text =
+                        requireContext().resources.getString(R.string.btn_to_fav)
+
                 } else {
                     mainCityViewModel.liveDataMainCity.value!!.isFav = true
-                    buttonFav.text = context!!.resources.getString(R.string.btn_from_fav)
-                    Log.d("EEE", "click  true")
+                    binding.buttonFav.text =
+                        requireContext().resources.getString(R.string.btn_from_fav)
+
                 }
             }
         }
 
-        val buttonPickCity = root.findViewById<Button>(R.id.buttonPickCity)
-        buttonPickCity.setOnClickListener {
+        binding.buttonPickCity.setOnClickListener {
             createDialog()
         }
 
         mainCityViewModel.liveDataWeatherMainCity.observe(viewLifecycleOwner, { data ->
-            textViewCityName.text = data.name
+            binding.textViewNameCity.text = data.name
+            binding.textViewUpdate.text = context?.resources?.getString(
+                R.string.city_last_update,
+                mainCityViewModel.getLastUpdate()
+            )
 
-            Log.d("EEE", "show view")
+            binding.textViewDesc.text = data.weather!![0].description
+            binding.textViewTemp.text =
+                context?.resources?.getString(R.string.city_temp, data.main!!.temp)
+            binding.textViewFeel.text =
+                context?.resources?.getString(R.string.city_feel, data.main!!.feelsLike)
+            binding.textViewMax.text =
+                context?.resources?.getString(R.string.city_max, data.main!!.tempMax)
+            binding.textViewMin.text =
+                context?.resources?.getString(R.string.city_min, data.main!!.tempMin)
+            binding.textViewHum.text =
+                context?.resources?.getString(R.string.city_hum, data.main!!.humidity)
+            binding.textViewVis.text =
+                context?.resources?.getString(R.string.city_vis, data.visibility)
+
+
+
             mainCityViewModel.getWeatherSeveralDaysApi()
         })
 
         mainCityViewModel.getWeatherSeveralDaysApiOB().observe(viewLifecycleOwner, {
             it?.let {
                 mainCityViewModel.insertWeatherSeveralDays()
-                Log.d("EEE", "insert several days")
+
             }
         })
 
@@ -100,22 +117,20 @@ class MainCityFragment : Fragment() {
         mainCityViewModel.getMainCity().observe(viewLifecycleOwner, { mainCity ->
 
             mainCity?.let {
-                Log.d("EEE", "mainCity update ok")
                 startLoadWeatherBD()
 
-                textViewCityName.text = mainCity.mainCity
-
-                if(mainCityViewModel.liveDataMainCity.value?.isFav!!){
-                    buttonFav.text = context!!.resources.getString(R.string.btn_from_fav)
-                    Log.d("EEE", "from BD true")
+                if (mainCityViewModel.liveDataMainCity.value?.isFav!!) {
+                    binding.buttonFav.text =
+                        requireContext().resources.getString(R.string.btn_from_fav)
+                    //  Log.d("EEE", "from BD true")
                 } else {
-                    buttonFav.text = context!!.resources.getString(R.string.btn_to_fav)
-                    Log.d("EEE", "from BD false")
+                    binding.buttonFav.text =
+                        requireContext().resources.getString(R.string.btn_to_fav)
+                    //   Log.d("EEE", "from BD false")
                 }
 
 
             } ?: run {
-                Log.d("EEE", "mainCity update null")
                 checkLocation()
             }
         })
@@ -123,30 +138,31 @@ class MainCityFragment : Fragment() {
         mainCityViewModel.getWeatherDayApiOb().observe(viewLifecycleOwner, { weatherDay ->
             weatherDay?.let {
 
-                if(weatherDay.error == null){
+                if (weatherDay.error == null) {
                     mainCityViewModel.insertWeatherDay(weatherDay)
 
-                    Log.d("EEE", "insertWeatherDay in BD")
                 } else {
-                    Toast.makeText(context, context!!.resources.getString(R.string.error_loading),
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context, requireContext().resources.getString(R.string.error_loading),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }
 
         })
 
-        fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener { view ->
             checkIdCity()
         }
 
 
-        return root
+        return binding.root
     }
 
     private fun startLoadWeatherBD() {
 
-        if(mainCityViewModel.liveDataMainCity.value?.mainCityId == null){
+        if (mainCityViewModel.liveDataMainCity.value?.mainCityId == null) {
             getIdCity()
         } else {
 
@@ -156,29 +172,29 @@ class MainCityFragment : Fragment() {
             mainCityViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
 
                 weatherDay?.let {
-                 //   mainCityViewModel.weatherDay = weatherDay
+                    //   mainCityViewModel.weatherDay = weatherDay
 
                     var isContain = false
 
                     if (mainCityViewModel.liveDataMainCity.value?.mainCityId != null) {
 
                         var mainCityPosition = -1
-                        weatherDay.list?.forEachIndexed {index, element ->
+                        weatherDay.list?.forEachIndexed { index, element ->
                             if (element.id?.equals(mainCityViewModel.liveDataMainCity.value?.mainCityId)!!) {
                                 isContain = true
                                 mainCityPosition = index
-                                Log.d("EEE", " list to view")
+
 
                             }
                         }
-                        if(isContain){
+                        if (isContain) {
                             mainCityViewModel.liveDataWeatherMainCity.value =
                                 weatherDay.list!![mainCityPosition]
                         }
 
-                        Log.d("EEE", "weatherDay not null time update")
+
                         if (!isContain) {
-                            Log.d("EEE", "add new city")
+
                             getWeatherDayApi(true)
                         }
 
@@ -187,19 +203,13 @@ class MainCityFragment : Fragment() {
 
                     if (util.isNeedUpdate(weatherDay.timeUpdate!!) && isContain) {
 
-                        Log.d(
-                            "EEE",
-                            "check time update true time Update  =  " + weatherDay.timeUpdate!!
-                        )
-                        getWeatherDayApi(false)
-                    } else {
 
+                        getWeatherDayApi(false)
                     }
 
 
                 } ?: run {
                     getWeatherDayApi(false)
-                    Log.d("EEE", " weather day null")
                 }
 
             })
@@ -213,12 +223,12 @@ class MainCityFragment : Fragment() {
     private fun checkIdCity() {
         mainCityViewModel.liveDataMainCity.value?.let {
             if (mainCityViewModel.liveDataMainCity.value!!.mainCityId != null) {
-                Log.d("EEE", "answer from bd weather day mainCityId != null")
+
                 getWeatherDayApi(false)
 
             } else {
                 getIdCity()
-                Log.d("EEE", "answer from bd weather day mainCityId == null")
+
             }
         }
 
@@ -236,12 +246,13 @@ class MainCityFragment : Fragment() {
                     mainCity.prevCityId = mainCityViewModel.liveDataMainCity.value!!.prevCityId
                     mainCity.prevCity = mainCityViewModel.liveDataMainCity.value!!.prevCity
                     mainCity.isFav = mainCityViewModel.liveDataMainCity.value!!.isFav
-                    Log.d("EEE", "new id city " + it.id)
-                  //  mainCity.mainCity = mainCityViewModel.liveDataMainCity.value!!.mainCity
+
                     mainCityViewModel.insertMainCity(mainCity)
                 } else {
-                    Toast.makeText(context, context!!.resources.getString(R.string.error_loading),
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context, requireContext().resources.getString(R.string.error_loading),
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 }
 
@@ -252,18 +263,18 @@ class MainCityFragment : Fragment() {
 
     private fun getWeatherDayApi(isNewCity: Boolean) {
 
-        if(isNewCity){
-            if(!mainCityViewModel.liveDataMainCity.value!!.isFav
-                && mainCityViewModel.liveDataMainCity.value!!.prevCityId != null){
+        if (isNewCity) {
+            if (!mainCityViewModel.liveDataMainCity.value!!.isFav
+                && mainCityViewModel.liveDataMainCity.value!!.prevCityId != null
+            ) {
                 var deletePos: Int = -1
-                mainCityViewModel.liveDataWeatherDay.value!!.list!!.forEachIndexed {index, element->
-                    Log.d("EEE", "element.id = " + element.id + " prevCityId = " + mainCityViewModel.liveDataMainCity.value!!.prevCityId)
-                    if(element.id.equals(mainCityViewModel.liveDataMainCity.value!!.prevCityId)){
+                mainCityViewModel.liveDataWeatherDay.value!!.list!!.forEachIndexed { index, element ->
+
+                    if (element.id.equals(mainCityViewModel.liveDataMainCity.value!!.prevCityId)) {
                         deletePos = index
                     }
                 }
                 mainCityViewModel.liveDataWeatherDay.value!!.list!!.removeAt(deletePos)
-
 
 
             }
@@ -307,13 +318,12 @@ class MainCityFragment : Fragment() {
                     mainCityViewModel.insertMainCity(mainCity)
                     dialogBuilder.dismiss()
                 } else {
-                    Log.d("EEE", "dialog id city error")
-                    editText.error = context!!.getString(R.string.city_not_found)
+
+                    editText.error = requireContext().getString(R.string.city_not_found)
 
                 }
                 progressBar.visibility = View.INVISIBLE
             })
-            Log.d("EEE", "input city " + editText.text.toString())
 
 
         }
@@ -325,7 +335,6 @@ class MainCityFragment : Fragment() {
 
     private fun checkLocation() {
         if (checkPermission()) {
-            Log.d("EEE", "checkPermission() is true")
             displayLocationSettingsRequest()
 
         }
@@ -334,11 +343,11 @@ class MainCityFragment : Fragment() {
 
     private fun checkPermission(): Boolean {
         return if (ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -366,7 +375,8 @@ class MainCityFragment : Fragment() {
         val builder = LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest)
 
         val result =
-            LocationServices.getSettingsClient(activity!!).checkLocationSettings(builder.build())
+            LocationServices.getSettingsClient(requireActivity())
+                .checkLocationSettings(builder.build())
 
         result.addOnSuccessListener { response ->
             val states = response.locationSettingsStates
@@ -397,8 +407,6 @@ class MainCityFragment : Fragment() {
         if (LOCATION_REQUEST_CODE_ == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 getLocation()
-            } else {
-
             }
         }
 
@@ -427,12 +435,13 @@ class MainCityFragment : Fragment() {
         var addresses: List<Address>
         val geocoder = Geocoder(context, Locale.getDefault())
 
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        val fusedLocationClient = LocationServices
+            .getFusedLocationProviderClient(requireContext())
         if (ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -448,12 +457,13 @@ class MainCityFragment : Fragment() {
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
                         val city: String = addresses[0].locality
                         if (city.equals(mainCityViewModel.liveDataMainCity.value?.mainCity)) {
-
+                            // Log.d("EEE", "location equals is $city")
                         } else {
                             val mainCity = MainCity()
                             mainCity.mainCity = city
                             mainCity.prevCity = mainCityViewModel.liveDataMainCity.value?.mainCity
-                            mainCity.prevCityId = mainCityViewModel.liveDataMainCity.value?.mainCityId
+                            mainCity.prevCityId =
+                                mainCityViewModel.liveDataMainCity.value?.mainCityId
                             mainCityViewModel.liveDataMainCity.value?.isFav?.let {
                                 mainCity.isFav = mainCityViewModel.liveDataMainCity.value!!.isFav
                             } ?: run {
@@ -461,7 +471,7 @@ class MainCityFragment : Fragment() {
                             }
 
                             mainCityViewModel.insertMainCity(mainCity)
-                            Log.d("EEE", "location is $city")
+                            //  Log.d("EEE", "location is $city")
                         }
                     }
                 }
@@ -473,7 +483,6 @@ class MainCityFragment : Fragment() {
     override fun onPause() {
 
         super.onPause()
-        Log.d("FFF", "onPause")
         mainCityViewModel.liveDataMainCity.value?.let {
             mainCityViewModel.insertMainCity(mainCityViewModel.liveDataMainCity.value!!)
         }

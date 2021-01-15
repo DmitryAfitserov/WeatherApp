@@ -11,9 +11,9 @@ class ListData {
 //    var coord: Coord? = null
 
 
-    @SerializedName("sys")
-    @Expose
-    var sys: Sys? = null
+//    @SerializedName("sys")
+//    @Expose
+//    var sys: Sys? = null
 
 
     @SerializedName("weather")
@@ -28,22 +28,22 @@ class ListData {
 
     @SerializedName("visibility")
     @Expose
-    var visibility: Int? = null
+    var visibility: String? = null
 
 
-    @SerializedName("wind")
-    @Expose
-    var wind: Wind? = null
+//    @SerializedName("wind")
+//    @Expose
+//    var wind: Wind? = null
 
 
-    @SerializedName("clouds")
-    @Expose
-    var clouds: Clouds? = null
+//    @SerializedName("clouds")
+//    @Expose
+//    var clouds: Clouds? = null
 
 
-    @SerializedName("dt")
-    @Expose
-    var dt: Int? = null
+//    @SerializedName("dt")
+//    @Expose
+//    var dt: Int? = null
 
 
     @SerializedName("id")

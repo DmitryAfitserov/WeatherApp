@@ -16,10 +16,10 @@
     <string name="city_not_found">City not found</string>
 
 
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
-    <string name="tab_text_4">Tab 4</string>
+    <string name="tab_text_1">City</string>
+    <string name="tab_text_2">Favorites</string>
+    <string name="tab_text_3">Daily</string>
+    <string name="tab_text_4">Settings</string>
     <string name="enable_GPS">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="enable_GPS_for_use_app">Enable GPS?</string>
@@ -37,5 +37,30 @@
 
     <string name="select_time">Select update interval</string>
     <string name="interval_update">Interval update</string>
+
+
+
+    <string name="sev_morn">morn %1$s°C</string>
+    <string name="sev_day">day %1$s°C</string>
+    <string name="sev_eve">eve %1$s°C</string>
+    <string name="sev_night">night %1$s°C</string>
+    <string name="sev_pres">pressure %1$sGPa</string>
+    <string name="sev_hun">humidity %1$s</string>
+    <string name="sev_wind">wind %1$sm/c</string>
+    <string name="sev_cl">clouds %1$s</string>
+
+
+    <string name="city_last_update">last update %1$s</string>
+    <string name="city_temp">temp %1$s°C</string>
+    <string name="city_feel">feel like %1$s°C</string>
+    <string name="city_max">max temp %1$s°C</string>
+    <string name="city_min">min temp %1$s°C</string>
+    <string name="city_hum">humidity %1$s</string>
+    <string name="city_vis">visibility %1$sm</string>
+
+    <string name="weth_visi">visibility %1$sm</string>
+    <string name="weth_temp">temp %1$s°C</string>
+    <string name="weth_feel">feel like %1$s°C</string>
+
 
 </resources>

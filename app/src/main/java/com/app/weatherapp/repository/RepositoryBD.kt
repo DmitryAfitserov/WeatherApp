@@ -20,12 +20,12 @@ class RepositoryBD(context: Context) {
     private var mainCityDao: MainCityDao = db!!.mainCityDao()
 
     suspend fun insertWeatherDay(weatherDay: WeatherDay) {
-        val newId = weatherDayDao.insert(weatherDay)
+         weatherDayDao.insert(weatherDay)
 
     }
 
     fun insertSynchWeatherDay(weatherDay: WeatherDay) {
-        val newId = weatherDayDao.insertSynch(weatherDay)
+         weatherDayDao.insertSynch(weatherDay)
     }
 
     fun getWeatherDay(): LiveData<WeatherDay> {
@@ -35,7 +35,6 @@ class RepositoryBD(context: Context) {
     fun getSynchWeatherDay(): WeatherDay {
         return weatherDayDao.getSynch()
     }
-
 
 
     suspend fun insertWeatherSeveralDays(weatherSeveralDays: WeatherSeveralDays) {
@@ -49,24 +48,21 @@ class RepositoryBD(context: Context) {
     }
 
     fun getWeatherSeveralDays(): LiveData<WeatherSeveralDays> {
-        Log.d("EEE", "getWeatherSeveralDays getWeatherSeveralDays in BD ")
         return weatherSeveralDaysDao.get()
     }
 
     fun getSynchWeatherSeveralDays(): WeatherSeveralDays {
-        Log.d("EEE", "getWeatherSeveralDays getWeatherSeveralDays in BD ")
         return weatherSeveralDaysDao.getSynch()
     }
 
 
 
-    suspend fun insertMainCity(mainCity: MainCity): Long? {
-        val newId = mainCityDao.insert(mainCity)
-        return 0
+    suspend fun insertMainCity(mainCity: MainCity) {
+         mainCityDao.insert(mainCity)
+
     }
 
     fun getMainCity(): LiveData<MainCity> {
-        Log.d("EEE", "getMainCity getMainCity in BD ")
         return mainCityDao.get()
     }
 

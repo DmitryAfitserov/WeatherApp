@@ -8,26 +8,26 @@ class Temp {
 
     @SerializedName("day")
     @Expose
-    var day: Float? = null
+    var day: String? = null
 
-    @SerializedName("min")
-    @Expose
-    var min: Float? = null
-
-    @SerializedName("max")
-    @Expose
-    var max: Float? = null
+//    @SerializedName("min")
+//    @Expose
+//    var min: Float? = null
+//
+//    @SerializedName("max")
+//    @Expose
+//    var max: Float? = null
 
     @SerializedName("night")
     @Expose
-    var night: Float? = null
+    var night: String? = null
 
     @SerializedName("eve")
     @Expose
-    var eve: Float? = null
+    var eve: String? = null
 
     @SerializedName("morn")
     @Expose
-    var morn: Float? = null
+    var morn: String? = null
 
 }

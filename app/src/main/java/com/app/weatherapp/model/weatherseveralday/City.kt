@@ -21,16 +21,16 @@ class City {
 //    @Expose
 //    var coord: Coord? = null
 
-    @SerializedName("country")
-    @Expose
-    var country: String? = null
+//    @SerializedName("country")
+//    @Expose
+//    var country: String? = null
 
-    @SerializedName("population")
-    @Expose
-    var population: String? = null
-
-    @SerializedName("timezone")
-    @Expose
-    var timezone: String? = null
+//    @SerializedName("population")
+//    @Expose
+//    var population: String? = null
+//
+//    @SerializedName("timezone")
+//    @Expose
+//    var timezone: String? = null
 
 }

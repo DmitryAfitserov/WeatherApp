@@ -1,21 +1,14 @@
-package com.app.weatherapp
+package com.app.weatherapp.view
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceScreen
 import androidx.work.*
+import com.app.weatherapp.R
+import com.app.weatherapp.WorkerUpdate
 import com.app.weatherapp.repository.Repo
-import com.app.weatherapp.view.AdapterViewPager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.app.weatherapp.view.adapters.AdapterViewPager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
@@ -27,7 +20,7 @@ class MainActivity : AppCompatActivity(){
         R.string.tab_text_1,
         R.string.tab_text_2,
         R.string.tab_text_3,
-        R.string.tab_text_3,
+        R.string.tab_text_4,
     )
     private val TAG_WORK = "TAGG"
     private lateinit var constraints: Constraints
@@ -48,58 +41,33 @@ class MainActivity : AppCompatActivity(){
 
         constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
 
-        val requestUpdate = PeriodicWorkRequest.Builder(WorkerUpdate::class.java,
-            6, TimeUnit.HOURS, 4, TimeUnit.HOURS).
-        setConstraints(constraints).addTag(TAG_WORK).build()
-
-        val requestTest = OneTimeWorkRequest.Builder(WorkerUpdate::class.java).build ()
-
-    //    WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(TAG_WORK, ExistingPeriodicWorkPolicy.KEEP, requestUpdate)
-
-//        WorkManager.getInstance(applicationContext)
-//            .getWorkInfoByIdLiveData(requestTest.id)
-//            .observe(this, Observer {
-//                    workInfo ->
-//
-//                Log.d("EEE", "workInfo")
-//                if (workInfo != null && workInfo.state ==
-//                    WorkInfo.State.SUCCEEDED)
-//                {
-//                    Log.d("EEE", "update")
-//                }
-//            })
 
     }
 
     fun stopWorker(){
-        Log.d("MMM", "stopWorker ")
         WorkManager.getInstance(applicationContext).cancelAllWork()
     }
 
     fun startWorker(time:Long){
-        
         val interval = time * 60
         val flexInterval = time * 40
-
-        val requestUpdate = PeriodicWorkRequest.Builder(WorkerUpdate::class.java,
+        val requestUpdate = PeriodicWorkRequest.Builder(
+            WorkerUpdate::class.java,
             interval, TimeUnit.MINUTES, flexInterval, TimeUnit.MINUTES).
         setConstraints(constraints).addTag(TAG_WORK).build()
         WorkManager.getInstance(applicationContext).enqueue(requestUpdate)
     }
 
     fun updateWorker(time:Long){
-
         val interval = time * 60
         val flexInterval = time * 40
-
-        val requestUpdate = PeriodicWorkRequest.Builder(WorkerUpdate::class.java,
+        val requestUpdate = PeriodicWorkRequest.Builder(
+            WorkerUpdate::class.java,
             interval, TimeUnit.MINUTES, flexInterval, TimeUnit.MINUTES).
         setConstraints(constraints).addTag(TAG_WORK).build()
         WorkManager.getInstance(applicationContext).
             enqueueUniquePeriodicWork(TAG_WORK, ExistingPeriodicWorkPolicy.REPLACE, requestUpdate)
     }
-
-
 
 
     override fun onDestroy() {

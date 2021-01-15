@@ -1,4 +1,4 @@
-package com.app.weatherapp.view
+package com.app.weatherapp
 
 interface ClickListener {
     fun onPositionClicked(position: Int)

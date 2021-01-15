@@ -1,10 +1,12 @@
-package com.app.weatherapp.view
+package com.app.weatherapp.view.adapters
 
 
 import androidx.fragment.app.*
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.app.weatherapp.CustomPreferenceFragment
-import com.app.weatherapp.R
+import com.app.weatherapp.view.fragments.CustomPreferenceFragment
+import com.app.weatherapp.view.fragments.FavoriteCityFragment
+import com.app.weatherapp.view.fragments.MainCityFragment
+import com.app.weatherapp.view.fragments.WeatherSeveralDaysFragment
 
 
 class AdapterViewPager(activity: FragmentActivity) : FragmentStateAdapter(activity) {

@@ -1,4 +1,4 @@
-package com.app.weatherapp.view
+package com.app.weatherapp.view.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.weatherapp.R
-import com.app.weatherapp.model.weatherday.ListData
-import com.app.weatherapp.model.weatherday.WeatherDay
+import com.app.weatherapp.ClickListener
+import com.app.weatherapp.view.adapters.AdapterFavoriteCities
 import com.app.weatherapp.viewmodel.FavoriteCitiesViewModel
 
 class FavoriteCityFragment : Fragment() {
@@ -39,7 +39,6 @@ class FavoriteCityFragment : Fragment() {
         adapter =
             AdapterFavoriteCities(favoriteCitiesViewModel.listToAdapter, object : ClickListener {
                 override fun onPositionClicked(position: Int) {
-                    Log.d("FFF", "delete pos = $position")
                     favoriteCitiesViewModel.deletePosition(position)
 
                 }
@@ -48,14 +47,12 @@ class FavoriteCityFragment : Fragment() {
 
         favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, { mainCity ->
             mainCity?.let {
-                Log.d("FFF", "getMainCityBD")
                 observerBD()
             }
         })
 
         favoriteCitiesViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
             weatherDay?.let {
-                Log.d("FFF", "getWeatherDayBD")
                 observerBD()
             }
         })
@@ -79,14 +76,12 @@ class FavoriteCityFragment : Fragment() {
         if (fragmentExist) {
             favoriteCitiesViewModel.getMainCityBD().observe(viewLifecycleOwner, { mainCity ->
                 mainCity?.let {
-                    Log.d("FFF", "getMainCityBD")
                     observerBD()
                 }
             })
 
             favoriteCitiesViewModel.getWeatherDayBD().observe(viewLifecycleOwner, { weatherDay ->
                 weatherDay?.let {
-                    Log.d("FFF", "getWeatherDayBD")
                     observerBD()
                 }
             })

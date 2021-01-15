@@ -12,23 +12,23 @@ class DataWeatherDay {
 
     @SerializedName("dt")
     @Expose
-    var dt: Int? = null
+    var dt: String? = null
 
-    @SerializedName("sunrise")
-    @Expose
-    var sunrise: Int? = null
-
-    @SerializedName("sunset")
-    @Expose
-    var sunset: Int? = null
+//    @SerializedName("sunrise")
+//    @Expose
+//    var sunrise: Int? = null
+//
+//    @SerializedName("sunset")
+//    @Expose
+//    var sunset: Int? = null
 
     @SerializedName("temp")
     @Expose
     var temp: Temp? = null
 
-    @SerializedName("feels_like")
-    @Expose
-    var feelsLike: FeelsLike? = null
+//    @SerializedName("feels_like")
+//    @Expose
+//    var feelsLike: FeelsLike? = null
 
     @SerializedName("pressure")
     @Expose
@@ -46,20 +46,20 @@ class DataWeatherDay {
     @Expose
     var speed: String? = null
 
-    @SerializedName("deg")
-    @Expose
-    var deg: Int? = null
+//    @SerializedName("deg")
+//    @Expose
+//    var deg: Int? = null
 
     @SerializedName("clouds")
     @Expose
     var clouds: String? = null
 
-    @SerializedName("pop")
-    @Expose
-    var pop: String? = null
-
-    @SerializedName("snow")
-    @Expose
-    var snow: Float? = null
+//    @SerializedName("pop")
+//    @Expose
+//    var pop: String? = null
+//
+//    @SerializedName("snow")
+//    @Expose
+//    var snow: Float? = null
 
 }

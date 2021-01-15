@@ -20,17 +20,19 @@ object RepositoryApi {
     val liveDataWeatherSeveralDays = MutableLiveData<WeatherSeveralDays>()
 
 
-    fun getLiveDataIdCityOb(): MutableLiveData<IdCity>{
+    fun getLiveDataIdCityOb(): MutableLiveData<IdCity> {
         return liveDataIdCity
     }
-    fun getLiveDataWeatherDayOb(): MutableLiveData<WeatherDay>{
+
+    fun getLiveDataWeatherDayOb(): MutableLiveData<WeatherDay> {
         return liveDataWeatherDay
     }
-    fun getLiveWeatherSeveralDaysOb(): MutableLiveData<WeatherSeveralDays>{
+
+    fun getLiveWeatherSeveralDaysOb(): MutableLiveData<WeatherSeveralDays> {
         return liveDataWeatherSeveralDays
     }
 
-    fun getSynchWeatherDay(weatherDayOld: WeatherDay?): WeatherDay{
+    fun getSynchWeatherDay(weatherDayOld: WeatherDay?): WeatherDay {
         // http://api.openweathermap.org/data/2.5/group?id=524901,703448,627904&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
 
         val paramIds = StringBuilder()
@@ -60,17 +62,15 @@ object RepositoryApi {
                 weatherDay!!.error = "error"
             }
 
-        }
-        catch (ex:Exception )
-        {
-            ex.printStackTrace();
+        } catch (ex: Exception) {
+           // ex.printStackTrace();
             weatherDay = WeatherDay()
             weatherDay!!.error = ex.message.toString()
         }
         return weatherDay!!
     }
 
-    fun getSynchSeveralWeatherDay(nameCity: String, countDays: Int): WeatherSeveralDays{
+    fun getSynchSeveralWeatherDay(nameCity: String, countDays: Int): WeatherSeveralDays {
 
         // http://api.openweathermap.org/data/2.5/forecast/daily?q=minsk&cnt=4&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
 
@@ -94,10 +94,8 @@ object RepositoryApi {
                 weatherSeveralDays!!.error = "error"
             }
 
-        }
-        catch (ex:Exception )
-        {
-            ex.printStackTrace();
+        } catch (ex: Exception) {
+         //   ex.printStackTrace();
             weatherSeveralDays = WeatherSeveralDays()
             weatherSeveralDays!!.error = ex.message.toString()
         }
@@ -132,7 +130,7 @@ object RepositoryApi {
                 //   Log.d("EEE", response.body().toString())
 
                 var data = response.body()
-                if(data == null){
+                if (data == null) {
                     var city = IdCity()
                     city.error = "City not found"
                     data = city
@@ -159,7 +157,7 @@ object RepositoryApi {
         }
         idCityString?.let {
 
-            if(!paramIds.contains(idCityString)){
+            if (!paramIds.contains(idCityString)) {
                 paramIds.append(it)
             }
 
@@ -176,9 +174,9 @@ object RepositoryApi {
 
             override fun onFailure(call: Call<WeatherDay>, t: Throwable) {
                 Log.d("EEE", t.message.toString())
-                val weatherDay = WeatherDay()
-                weatherDay.error = t.message.toString()
-                liveDataWeatherDay.value = weatherDay
+                val weather = WeatherDay()
+                weather.error = t.message.toString()
+                liveDataWeatherDay.value = weather
             }
 
             override fun onResponse(
@@ -195,7 +193,10 @@ object RepositoryApi {
         return liveDataWeatherDay
     }
 
-    fun getWeatherSeveralDays(nameCity: String, countDays: Int): MutableLiveData<WeatherSeveralDays> {
+    fun getWeatherSeveralDays(
+        nameCity: String,
+        countDays: Int
+    ): MutableLiveData<WeatherSeveralDays> {
 
         // http://api.openweathermap.org/data/2.5/forecast/daily?q=minsk&cnt=4&appid=fc199427e9a8ee2bee5dc1222759d908&units=metric
 
@@ -219,7 +220,7 @@ object RepositoryApi {
                 call: Call<WeatherSeveralDays>,
                 response: Response<WeatherSeveralDays>
             ) {
-                //   Log.d("EEE", response.body().toString())
+
 
                 val data = response.body()
                 //  Log.d("EEE", "id city  = " + data?.id.toString())
@@ -228,8 +229,6 @@ object RepositoryApi {
         })
         return liveDataWeatherSeveralDays
     }
-
-
 
 
 }

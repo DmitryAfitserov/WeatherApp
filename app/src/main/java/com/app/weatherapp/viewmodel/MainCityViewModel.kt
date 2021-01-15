@@ -22,6 +22,7 @@ import com.app.weatherapp.repository.RepositoryBD
 import com.google.android.gms.location.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -37,7 +38,7 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
     var liveDataWeatherSeveralDays: MutableLiveData<WeatherSeveralDays> = MutableLiveData()
     var liveDataIdCity: MutableLiveData<IdCity> = MutableLiveData()
     var liveDataWeatherMainCity: MutableLiveData<ListData> = MutableLiveData()
-     //   var weatherDay: WeatherDay? = null
+    //   var weatherDay: WeatherDay? = null
 
 
     fun getMainCity(): LiveData<MainCity> {
@@ -62,7 +63,7 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
         return liveDataWeatherDay
     }
 
-    fun getWeatherDayAPI(weatherDayCorrect:WeatherDay?): LiveData<WeatherDay> {
+    fun getWeatherDayAPI(weatherDayCorrect: WeatherDay?): LiveData<WeatherDay> {
         return Repo.getWeatherDay(weatherDayCorrect, liveDataMainCity.value!!.mainCityId)
 
     }
@@ -71,17 +72,17 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
         return Repo.getWeatherDayOb()
     }
 
-    fun getIdCity(nameCity: String): MutableLiveData<IdCity>{
-        liveDataIdCity =  Repo.getIdCityByName(nameCity)
+    fun getIdCity(nameCity: String): MutableLiveData<IdCity> {
+        liveDataIdCity = Repo.getIdCityByName(nameCity)
         return liveDataIdCity
     }
 
-    fun getWeatherSeveralDaysApiOB(): MutableLiveData<WeatherSeveralDays>{
+    fun getWeatherSeveralDaysApiOB(): MutableLiveData<WeatherSeveralDays> {
         liveDataWeatherSeveralDays = Repo.getWeatherSeveralDaysOb()
         return liveDataWeatherSeveralDays
     }
 
-    fun getWeatherSeveralDaysApi(): MutableLiveData<WeatherSeveralDays>{
+    fun getWeatherSeveralDaysApi(): MutableLiveData<WeatherSeveralDays> {
         return Repo.getWeatherSeveralDays(liveDataWeatherMainCity.value?.name!!, countDays = 8)
     }
 
@@ -91,8 +92,15 @@ class MainCityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun getLastUpdate(): String {
 
+        val formatter: SimpleDateFormat = SimpleDateFormat("HH-mm dd.MM")
 
+        val dateString = formatter.format(Date(liveDataWeatherDay.value!!.timeUpdate!!.toLong()))
+
+        return dateString
+
+    }
 
 
 }
